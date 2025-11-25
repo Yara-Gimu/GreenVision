@@ -1,6 +1,6 @@
 /*
  * ==========================================================
- * ملف login.js - معالجة تسجيل الدخول
+ * ملف login.js - معالجة تسجيل الدخول بدون حفظ تلقائي
  * ==========================================================
  */
 
@@ -25,13 +25,13 @@ document.addEventListener('DOMContentLoaded', () => {
             password: 'password123',
             role: 'operator',
             name: 'مشغّل الدرون',
-            redirect: 'operator.html'
+            redirect: 'operator_dashboard.html'
         },
         'specialist@kau.edu.sa': {
             password: 'password123',
             role: 'specialist',
             name: 'د. أحمد',
-            redirect: 'specialist.html'
+            redirect: 'specialist_dashboard.html'
         }
     };
 
@@ -172,6 +172,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- حفظ بيانات الجلسة فقط (تزول عند إغلاق المتصفح) ---
+    function saveSessionData(user) {
+        sessionStorage.setItem('currentUser', JSON.stringify({
+            email: user.email,
+            name: user.name,
+            role: user.role,
+            loginTime: new Date().toISOString()
+        }));
+    }
+
+    // --- التوجيه للصفحة المناسبة ---
+    function redirectToDashboard(user) {
+        showSuccess(`جاري توجيهك إلى لوحة ${user.role === 'operator' ? 'المشغّل' : 'المختص'}...`);
+        
+        setTimeout(() => {
+            window.location.href = user.redirect;
+        }, 2000);
+    }
+
     // --- معالجة إرسال النموذج ---
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
@@ -216,23 +235,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (result.success) {
                     showSuccess(`مرحباً بعودتك، ${result.user.name}!`);
                     
-                    // محاكاة الانتقال للصفحة التالية
+                    // إضافة البريد الإلكتروني إلى بيانات المستخدم
+                    result.user.email = email;
+                    
+                    // حفظ بيانات الجلسة فقط (تزول عند إغلاق المتصفح)
+                    saveSessionData(result.user);
+                    
+                    // التوجيه للصفحة المناسبة بعد تأخير
                     setTimeout(() => {
-                        showSuccess('جاري توجيهك إلى لوحة التحكم...');
-                        
-                        setTimeout(() => {
-                            // في التطبيق الحقيقي، سيتم التوجيه للصفحة المناسبة
-                            // window.location.href = result.user.redirect;
-                            
-                            // لأغراض العرض، سنظهر رسالة نجاح فقط
-                            showSuccess('تم تسجيل الدخول بنجاح! (هذا عرض تجريبي)');
-                            setLoadingState(false);
-                            
-                            // إعادة تعيين النموذج بعد نجاح التسجيل
-                            loginForm.reset();
-                            
-                        }, 1000);
-                    }, 1000);
+                        redirectToDashboard(result.user);
+                    }, 1500);
                     
                 } else {
                     showError(result.message);
@@ -293,6 +305,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- منع الإكمال التلقائي ---
+    if (emailInput) {
+        emailInput.setAttribute('autocomplete', 'off');
+    }
+    if (passwordInput) {
+        passwordInput.setAttribute('autocomplete', 'new-password');
+    }
+
     // --- إعادة تعيين النموذج عند تحميل الصفحة ---
     if (loginForm) {
         loginForm.reset();
@@ -307,5 +327,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100);
     }
 
-    console.log('Login.js loaded successfully');
+    console.log('Login.js loaded successfully - No auto login');
 });
