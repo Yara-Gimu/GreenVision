@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang-ar="لوحة تحكم المشغّل - GreenVision" data-lang-en="Operator Dashboard - GreenVision">لوحة تحكم المشغّل - GreenVision</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://unpkg.com/lucide-react@latest/dist/umd/lucide.js"></script>
+
+    <style type="text/tailwindcss">
+        @layer base {
+            html {
+                font-family: 'Inter', 'Cairo', sans-serif;
+            }
+            /* (باقي الستايلات المخصصة للفورم كما هي) */
+            .file-drop-zone {
+                transition: background-color 0.2s ease-in-out;
+            }
+            .file-drop-zone-active {
+                @apply bg-brand-green-light bg-opacity-10 border-brand-green-light;
+            }
+            .file-list::-webkit-scrollbar {
+                width: 6px;
+            }
+            .file-list::-webkit-scrollbar-thumb {
+                @apply bg-gray-400 dark:bg-gray-600 rounded-full;
+            }
+            
+            /* ستايلات شريط التقدم */
+            .upload-progress {
+                transition: width 0.3s ease-in-out;
+            }
+            
+            /* ستايلات زر الإلغاء */
+            .cancel-btn {
+                transition: all 0.2s ease-in-out;
+            }
+        }
+    </style>
+    
+    <script>
+        // 5. Tailwind Custom Configuration
+        tailwind.config = {
+            darkMode: 'class', 
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-green': 'rgb(4, 106, 56)',
+                        'brand-green-light': 'rgb(56, 161, 105)',
+                        'brand-dark': 'rgb(26, 32, 44)',
+                        'brand-light': 'rgb(247, 250, 252)',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'Cairo', 'sans-serif'],
+                        'inter': ['Inter', 'sans-serif'],
+                        'cairo': ['Cairo', 'sans-serif'],
+                    },
+                    // **(تعديل)**: إضافة أحجام الخطوط لدعم قائمة الوصولية
+                    fontSize: {
+                        'base': '1rem',
+                        'lg': '1.125rem',
+                        'xl': '1.25rem',
+                        '2xl': '1.5rem',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brand-light dark:bg-brand-dark transition-colors duration-300">
+
+    <header class="sticky top-0 z-10 bg-white dark:bg-brand-dark shadow-sm border-b border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3 rtl:space-x-reverse">
+                    <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+                        <img src="assets/logo.png" alt="GreenVision Logo" class="h-8 w-auto">
+                        <span class="text-xl font-bold text-brand-dark dark:text-brand-light">GreenVision</span>
+                    </a>
+                </div>
+
+                <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                    
+                    <button id="lang-toggle" 
+                            class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-brand-green-light" 
+                            aria-label="Toggle Language">
+                        <span class="font-bold text-sm">EN</span>
+                    </button>
+                    
+                    <button id="theme-toggle" 
+                            class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-brand-green-light" 
+                            aria-label="Toggle Dark Mode">
+                        <img id="theme-icon-sun" src="assets/sun.png" alt="Light Mode" class="w-5 h-5 hidden">
+                        <img id="theme-icon-moon" src="assets/moon.png" alt="Dark Mode" class="w-5 h-5"> 
+                    </button>
+
+                    <div class="relative">
+                        <button id="a11y-toggle" 
+                                class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-brand-green-light">
+                            <img src="assets/accessibility.png" alt="Accessibility" class="w-5 h-5">
+                        </button>
+                        <div id="a11y-menu" 
+                             class="hidden absolute top-12 right-0 rtl:right-auto rtl:left-0 w-48 bg-white dark:bg-brand-dark rounded-lg shadow-xl border dark:border-gray-700 z-50">
+                            <div class="p-2 space-y-1">
+                                <button id="a11y-increase" class="w-full text-start flex items-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200">
+                                    <i data-lucide="zoom-in" class="w-4 h-4 me-2 rtl:me-0 rtl:ml-2"></i>
+                                    <span data-lang-ar="تكبير الخط" data-lang-en="Increase Font">تكبير الخط</span>
+                                </button>
+                                <button id="a11y-decrease" class="w-full text-start flex items-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200">
+                                    <i data-lucide="zoom-out" class="w-4 h-4 me-2 rtl:me-0 rtl:ml-2"></i>
+                                    <span data-lang-ar="تصغير الخط" data-lang-en="Decrease Font">تصغير الخط</span>
+                                </button>
+                                <button id="a11y-reset" class="w-full text-start flex items-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200">
+                                    <i data-lucide="refresh-cw" class="w-4 h-4 me-2 rtl:me-0 rtl:ml-2"></i>
+                                    <span data-lang-ar="إعادة تعيين" data-lang-en="Reset Font">إعادة تعيين</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-2"></div>
+
+                    <div class="relative">
+                        <span class="text-sm text-gray-700 dark:text-gray-300" data-lang-ar="مرحباً، مشغّل" data-lang-en="Hi, Operator">مرحباً، مشغّل</span>
+                        <a href="login.html" class="ms-2 rtl:ms-0 rtl:mr-2 text-sm font-medium text-brand-green-light hover:text-brand-green" data-lang-ar="تسجيل الخروج" data-lang-en="Logout">
+                            تسجيل الخروج
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <div class="lg:col-span-2">
+                <div class="bg-white dark:bg-brand-dark p-6 sm:p-8 rounded-lg shadow-md">
+                    <h1 class="text-2xl font-bold text-brand-dark dark:text-brand-light mb-6" data-lang-ar="رفع مهمة جديدة" data-lang-en="Upload New Mission">
+                        رفع مهمة جديدة
+                    </h1>
+                    
+                    <form id="mission-form" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="mission-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300" data-lang-ar="اسم المهمة" data-lang-en="Mission Name">
+                                    اسم المهمة
+                                </label>
+                                <input type="text" id="mission-name" name="mission-name" required
+                                       class="mt-1 w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-brand-dark dark:text-brand-light focus:outline-none focus:ring-2 focus:ring-brand-green-light focus:border-brand-green-light"
+                                       data-lang-placeholder-ar="مثال: مسح وادي حنيفة - الجزء الغربي"
+                                       data-lang-placeholder-en="e.g., Wadi Hanifa Scan - West Side"
+                                       placeholder="مثال: مسح وادي حنيفة - الجزء الغربي">
+                            </div>
+                            
+                            <div>
+                                <label for="mission-date" class="block text-sm font-medium text-gray-700 dark:text-gray-300" data-lang-ar="تاريخ المهمة" data-lang-en="Mission Date">
+                                    تاريخ المهمة
+                                </label>
+                                <input type="date" id="mission-date" name="mission-date" required
+                                       class="mt-1 w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-brand-dark dark:text-brand-light focus:outline-none focus:ring-2 focus:ring-brand-green-light focus:border-brand-green-light"
+                                       value="">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="location-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300" data-lang-ar="اسم الموقع (وصفي)" data-lang-en="Location Name (Descriptive)">
+                                اسم الموقع (وصفي)
+                            </label>
+                            <input type="text" id="location-name" name="location-name" required
+                                   class="mt-1 w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-brand-dark dark:text-brand-light focus:outline-none focus:ring-2 focus:ring-brand-green-light focus:border-brand-green-light"
+                                   data-lang-placeholder-ar="مثال: شمال الرياض، بالقرب من الطريق السريع"
+                                   data-lang-placeholder-en="e.g., North Riyadh, near highway"
+                                   placeholder="مثال: شمال الرياض، بالقرب من الطريق السريع">
+                        </div>
+                        <div>
+                            <label for="mission-notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300" data-lang-ar="ملاحظات إضافية" data-lang-en="Additional Notes">
+                                ملاحظات إضافية
+                            </label>
+                            <textarea id="mission-notes" name="mission-notes" rows="3"
+                                      class="mt-1 w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-brand-dark dark:text-brand-light focus:outline-none focus:ring-2 focus:ring-brand-green-light focus:border-brand-green-light"
+                                      data-lang-placeholder-ar="أي ملاحظات حول المهمة (اختياري)"
+                                      data-lang-placeholder-en="Any notes about the mission (optional)"
+                                      placeholder="أي ملاحظات حول المهمة (اختياري)"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300" data-lang-ar="ملفات المهمة (صور، فيديو)" data-lang-en="Mission Files (Images, Video)">
+                                ملفات المهمة (صور، فيديو)
+                            </label>
+                            <div id="file-drop-zone" class="file-drop-zone mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-lg cursor-pointer hover:border-brand-green-light">
+                                <div class="space-y-1 text-center">
+                                    <i data-lucide="upload-cloud" class="mx-auto h-12 w-12 text-gray-400"></i>
+                                    <div class="flex text-sm text-gray-600 dark:text-gray-400">
+                                        <p class="relative font-medium text-brand-green-light hover:text-brand-green">
+                                            <span data-lang-ar="انقر للاختيار" data-lang-en="Click to browse">انقر للاختيار</span>
+                                            <input id="file-upload" name="file-upload" type="file" class="sr-only" multiple required>
+                                        </p>
+                                        <p class="pl-1 rtl:pr-1" data-lang-ar="، أو اسحب وأفلت الملفات هنا" data-lang-en=", or drag and drop files here">، أو اسحب وأفلت الملفات هنا</p>
+                                    </div>
+                                    <p class="text-xs text-gray-500 dark:text-gray-500" data-lang-ar="صور أو فيديوهات (بحد أقصى 10 ملفات)" data-lang-en="Images or Video (Max 10 files)">
+                                        صور أو فيديوهات (بحد أقصى 10 ملفات)
+                                    </p>
+                                </div>
+                            </div>
+                            <div id="file-list" class="file-list mt-4 max-h-32 overflow-y-auto space-y-2">
+                                <!-- سيتم ملؤها بواسطة JavaScript -->
+                            </div>
+                            
+                            <!-- شريط تقدم الرفع -->
+                            <div id="upload-progress-container" class="mt-4 hidden">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span id="upload-status" class="text-sm font-medium text-gray-700 dark:text-gray-300" data-lang-ar="جاري الرفع..." data-lang-en="Uploading...">جاري الرفع...</span>
+                                    <span id="upload-percentage" class="text-sm font-medium text-brand-green">0%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                                    <div id="upload-progress-bar" class="upload-progress bg-brand-green h-2.5 rounded-full" style="width: 0%"></div>
+                                </div>
+                                <div class="flex justify-between items-center mt-2">
+                                    <span id="upload-speed" class="text-xs text-gray-500 dark:text-gray-400">-</span>
+                                    <span id="upload-time" class="text-xs text-gray-500 dark:text-gray-400">-</span>
+                                </div>
+                                <div class="mt-3 flex justify-center">
+                                    <button id="cancel-upload-btn" type="button" class="cancel-btn px-4 py-2 text-sm font-medium text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-lg transition-colors flex items-center">
+                                        <i data-lucide="x-circle" class="w-4 h-4 me-2 rtl:me-0 rtl:ms-2"></i>
+                                        <span data-lang-ar="إلغاء الرفع" data-lang-en="Cancel Upload">إلغاء الرفع</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <button type="submit" id="submit-btn"
+                                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-brand-green hover:bg-brand-green-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-green-light transition-colors">
+                                <span data-lang-ar="إرسال المهمة" data-lang-en="Submit Mission">إرسال المهمة</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="lg:col-span-1">
+                <div class="bg-white dark:bg-brand-dark p-6 sm:p-8 rounded-lg shadow-md h-full">
+                    <h2 class="text-2xl font-bold text-brand-dark dark:text-brand-light mb-6" data-lang-ar="سجل المهمات" data-lang-en="Mission History">
+                        سجل المهمات
+                    </h2>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="py-3 text-start text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" data-lang-ar="المهمة" data-lang-en="Mission">المهمة</th>
+                                    <th scope="col" class="py-3 text-start text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" data-lang-ar="التاريخ" data-lang-en="Date">التاريخ</th>
+                                    <th scope="col" class="py-3 text-start text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" data-lang-ar="الحالة" data-lang-en="Status">الحالة</th>
+                                    <th scope="col" class="py-3 text-start text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" data-lang-ar="إجراءات" data-lang-en="Actions">إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-table-body" class="divide-y divide-gray-200 dark:divide-gray-700 text-sm text-gray-900 dark:text-gray-200">
+                                <tr>
+                                    <td class="py-4 whitespace-nowrap">Wadi Hanifa</td>
+                                    <td class="py-4 whitespace-nowrap">05 Nov 2025</td>
+                                    <td class="py-4 whitespace-nowrap">
+                                        <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100" data-lang-ar="اكتمل" data-lang-en="Completed">
+                                            اكتمل
+                                        </span>
+                                    </td>
+                                    <td class="py-4 whitespace-nowrap">
+                                        <button class="view-report-btn px-2 py-1 text-xs font-medium rounded text-blue-600 bg-blue-50 dark:bg-blue-900/20 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/30" data-mission-id="1">
+                                            <span data-lang-ar="عرض" data-lang-en="View">عرض</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-4 whitespace-nowrap">North Riyadh</td>
+                                    <td class="py-4 whitespace-nowrap">03 Nov 2025</td>
+                                    <td class="py-4 whitespace-nowrap">
+                                        <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100" data-lang-ar="قيد المعالجة" data-lang-en="Processing">
+                                            قيد المعالجة
+                                        </span>
+                                    </td>
+                                    <td class="py-4 whitespace-nowrap">
+                                        <button class="view-report-btn px-2 py-1 text-xs font-medium rounded text-blue-600 bg-blue-50 dark:bg-blue-900/20 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/30" data-mission-id="2">
+                                            <span data-lang-ar="عرض" data-lang-en="View">عرض</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- زر حذف المهمات القديمة -->
+                    <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <button id="clear-old-missions" class="w-full px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 dark:bg-gray-700 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors flex items-center justify-center">
+                            <i data-lucide="trash-2" class="w-4 h-4 me-2 rtl:me-0 rtl:ms-2"></i>
+                            <span data-lang-ar="حذف المهمات المكتملة (أقدم من شهر)" data-lang-en="Delete Completed Missions (Older than 1 month)">حذف المهمات المكتملة (أقدم من شهر)</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    
+    <!-- نافذة عرض التقرير -->
+    <div id="report-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 transition-opacity duration-300 hidden opacity-0">
+        <div class="bg-white dark:bg-brand-dark w-full max-w-4xl rounded-lg shadow-xl transform transition-all duration-300 scale-95 opacity-0">
+            <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                <h3 class="text-xl font-bold text-brand-dark dark:text-brand-light" data-lang-ar="تفاصيل التقرير" data-lang-en="Report Details">تفاصيل التقرير</h3>
+                <button id="close-report-modal" class="p-2 rounded-full text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="p-6 max-h-96 overflow-y-auto">
+                <div id="report-content">
+                    <!-- سيتم ملؤها بواسطة JavaScript -->
+                </div>
+            </div>
+            <div class="p-4 border-t border-gray-200 dark:border-gray-700 text-end">
+                <button id="close-report-footer-btn" class="px-4 py-2 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600" data-lang-ar="إغلاق" data-lang-en="Close">إغلاق</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="toast-notification" class="fixed top-5 right-5 rtl:right-auto rtl:left-5 z-50 transition-all duration-300 transform translate-x-full rtl:-translate-x-full">
+        <div class="max-w-sm w-full bg-green-500 dark:bg-green-600 shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
+            <div class="p-4">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <i data-lucide="check-circle" class="h-6 w-6 text-white"></i>
+                    </div>
+                    <div class="ms-3 rtl:mr-3 w-0 flex-1 pt-0.5">
+                        <p id="toast-message" class="text-sm font-medium text-white"></p>
+                    </div>
+                    <div class="ms-3 rtl:mr-3 flex-shrink-0 flex">
+                        <button id="toast-close" class="inline-flex rounded-md p-1 text-white hover:bg-green-600 dark:hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-white">
+                            <span class="sr-only">Close</span>
+                            <i data-lucide="x" class="h-5 w-5"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/operator.js"></script>
+
+</body>
+</html>

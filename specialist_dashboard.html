@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang-ar="لوحة تحكم المختص - GreenVision" data-lang-en="Specialist Dashboard - GreenVision">لوحة تحكم المختص - GreenVision</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- إضافة مكتبة Chart.js للرسوم البيانية -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script src="https://unpkg.com/lucide-react@latest/dist/umd/lucide.js"></script>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <style type="text/tailwindcss">
+        @layer base {
+            html {
+                font-family: 'Inter', 'Cairo', 'sans-serif';
+            }
+        }
+        @layer components {
+            .nav-link-active { @apply bg-brand-green text-white; }
+            .status-select { @apply border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-green-light; transition: color 0.2s, background-color 0.2s; }
+            .status-pending { @apply text-yellow-800 bg-yellow-100 dark:text-yellow-100 dark:bg-yellow-800; }
+            .status-in-progress { @apply text-blue-800 bg-blue-100 dark:text-blue-100 dark:bg-blue-800; }
+            .status-completed { @apply text-green-800 bg-green-100 dark:text-green-100 dark:bg-green-800; }
+            .notifications-list::-webkit-scrollbar { width: 5px; }
+            .notifications-list::-webkit-scrollbar-thumb { @apply bg-gray-300 dark:bg-gray-600 rounded-full; }
+            .form-checkbox { @apply h-5 w-5 rounded text-brand-green bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:ring-brand-green-light; }
+            
+            /* ستايل الخريطة */
+            #map {
+                height: 500px;
+                z-index: 10;
+            }
+            
+            /* ستايل الرسم البياني */
+            .chart-container {
+                position: relative;
+                height: 300px;
+                width: 100%;
+            }
+
+            /* ستايل الفلاتر */
+            .filter-active {
+                @apply bg-brand-green text-white;
+            }
+            
+            /* ستايل التابات */
+            .tab-active {
+                @apply bg-brand-green text-white;
+            }
+            
+            /* ستايل معرض الصور - بحجم أصغر */
+            .carousel-container {
+                position: relative;
+                overflow: hidden;
+                border-radius: 0.5rem;
+                background-color: #f9fafb;
+                height: 180px; /* تصغير الارتفاع */
+            }
+
+            .carousel-slide {
+                display: none;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .carousel-slide.active {
+                display: block;
+            }
+
+            .carousel-indicators {
+                display: flex;
+                justify-content: center;
+                margin-top: 0.5rem;
+            }
+
+            .carousel-indicator {
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background-color: #d1d5db;
+                margin: 0 3px;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+
+            .carousel-indicator.active {
+                background-color: rgb(4, 106, 56);
+                transform: scale(1.2);
+            }
+
+            .carousel-nav {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                background-color: rgba(255, 255, 255, 0.8);
+                border-radius: 50%;
+                width: 28px;
+                height: 28px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                z-index: 10;
+                border: 1px solid #e5e7eb;
+                transition: all 0.2s;
+            }
+
+            .carousel-nav:hover {
+                background-color: rgba(255, 255, 255, 0.95);
+                transform: translateY(-50%) scale(1.1);
+            }
+
+            .carousel-nav.prev {
+                left: 8px;
+            }
+
+            .carousel-nav.next {
+                right: 8px;
+            }
+
+            /* تحسين التمرير داخل المودال */
+            .modal-scroll {
+                max-height: 60vh;
+                overflow-y: auto;
+            }
+
+            /* تحسين المسافات للنصوص */
+            .prose p {
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class', 
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-green': 'rgb(4, 106, 56)',
+                        'brand-green-light': 'rgb(56, 161, 105)',
+                        'brand-dark': 'rgb(26, 32, 44)',
+                        'brand-light': 'rgb(247, 250, 252)',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'Cairo', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'base': '1rem', 'lg': '1.125rem', 'xl': '1.25rem', '2xl': '1.5rem',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brand-light dark:bg-gray-900 transition-colors duration-300">
+
+    <div class="relative min-h-screen">
+           <header class="sticky top-0 z-10 bg-white dark:bg-brand-dark shadow-sm border-b border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3 rtl:space-x-reverse">
+                    <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+                        <img src="assets/logo.png" alt="GreenVision Logo" class="h-8 w-auto">
+                        <span class="text-xl font-bold text-brand-dark dark:text-brand-light">GreenVision</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                    
+                    <button id="lang-toggle" 
+                            class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-brand-green-light" 
+                            aria-label="Toggle Language">
+                        <span class="font-bold text-sm">EN</span>
+                    </button>
+                    
+                    <button id="theme-toggle" 
+                            class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-brand-green-light" 
+                            aria-label="Toggle Dark Mode">
+                        <img id="theme-icon-sun" src="assets/sun.png" alt="Light Mode" class="w-5 h-5 hidden">
+                        <img id="theme-icon-moon" src="assets/moon.png" alt="Dark Mode" class="w-5 h-5"> 
+                    </button>
+
+                    <div class="relative">
+                        <button id="a11y-toggle" 
+                                class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-brand-green-light">
+                            <img src="assets/accessibility.png" alt="Accessibility" class="w-5 h-5">
+                        </button>
+                        <div id="a11y-menu" 
+                             class="hidden absolute top-12 right-0 rtl:right-auto rtl:left-0 w-48 bg-white dark:bg-brand-dark rounded-lg shadow-xl border dark:border-gray-700 z-50">
+                            <div class="p-2 space-y-1">
+                                <button id="a11y-increase" class="w-full text-start flex items-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200">
+                                    <i data-lucide="zoom-in" class="w-4 h-4 me-2 rtl:me-0 rtl:ml-2"></i>
+                                    <span data-lang-ar="تكبير الخط" data-lang-en="Increase Font">تكبير الخط</span>
+                                </button>
+                                <button id="a11y-decrease" class="w-full text-start flex items-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200">
+                                    <i data-lucide="zoom-out" class="w-4 h-4 me-2 rtl:me-0 rtl:ml-2"></i>
+                                    <span data-lang-ar="تصغير الخط" data-lang-en="Decrease Font">تصغير الخط</span>
+                                </button>
+                                <button id="a11y-reset" class="w-full text-start flex items-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200">
+                                    <i data-lucide="refresh-cw" class="w-4 h-4 me-2 rtl:me-0 rtl:ml-2"></i>
+                                    <span data-lang-ar="إعادة تعيين" data-lang-en="Reset Font">إعادة تعيين</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative">
+                        <button id="notifications-toggle" 
+                                class="p-2 relative rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-brand-green-light">
+                            <img src="assets/bell.png" alt="Notifications" class="w-5 h-5">
+                            <span id="notification-dot" class="absolute top-1.5 right-1.5 rtl:right-auto rtl:left-1.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white dark:border-gray-700"></span>
+                        </button>
+                        
+                        <div id="notifications-menu" 
+                             class="hidden absolute top-12 right-0 rtl:right-auto rtl:left-0 w-80 sm:w-96 bg-white dark:bg-brand-dark rounded-lg shadow-xl border dark:border-gray-700 z-50">
+                            <div class="p-3 border-b dark:border-gray-700">
+                                <h4 class="font-medium text-gray-800 dark:text-gray-200" data-lang-ar="الإشعارات" data-lang-en="Notifications">الإشعارات</h4>
+                            </div>
+                            <div class="notifications-list p-2 space-y-1 max-h-80 overflow-y-auto">
+                                <a href="#" class="flex items-start p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
+                                    <i data-lucide="file-plus" class="w-5 h-5 text-brand-green-light flex-shrink-0 mt-1 me-3 rtl:me-0 rtl:ml-3"></i>
+                                    <div>
+                                        <p class="text-sm text-gray-800 dark:text-gray-200" data-lang-ar="تم رفع تقرير جديد: مسح وادي حنيفة." data-lang-en="New report uploaded: Wadi Hanifa Scan.">تم رفع تقرير جديد: مسح وادي حنيفة.</p>
+                                        <span class="text-xs text-gray-500" data-lang-ar="منذ 5 دقائق" data-lang-en="5 minutes ago">منذ 5 دقائق</span>
+                                    </div>
+                                </a>
+                                <a href="#" class="flex items-start p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
+                                    <i data-lucide="alert-triangle" class="w-5 h-5 text-red-500 flex-shrink-0 mt-1 me-3 rtl:me-0 rtl:ml-3"></i>
+                                    <div>
+                                        <p class="text-sm text-gray-800 dark:text-gray-200" data-lang-ar="اكتشاف عالي الخطورة في (شمال الرياض)" data-lang-en="High-risk detection in (North Riyadh)">اكتشاف عالي الخطورة في (شمال الرياض)</p>
+                                        <span class="text-xs text-gray-500" data-lang-ar="منذ 30 دقيقة" data-lang-en="30 minutes ago">منذ 30 دقيقة</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="p-2 border-t dark:border-gray-700 text-center">
+                                <a href="#" id="view-all-reports-link" class="text-sm font-medium text-brand-green-light hover:text-brand-green" data-lang-ar="عرض كل الإشعارات" data-lang-en="View All Notifications">عرض كل الإشعارات</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-2"></div>
+
+                    <div class="relative">
+                        <span class="text-sm text-gray-700 dark:text-gray-300" data-lang-ar="مرحباً، د. أحمد" data-lang-en="Hi, Dr. Ahmed">مرحباً، د. أحمد</span>
+                        <a href="login.html" class="ms-2 rtl:ms-0 rtl:mr-2 text-sm font-medium text-brand-green-light hover:text-brand-green" data-lang-ar="تسجيل الخروج" data-lang-en="Logout">
+                            تسجيل الخروج
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <aside id="main-sidebar" class="fixed top-0 right-0 h-full w-64 bg-brand-dark text-white flex flex-col z-20">
+            <div class="flex items-center justify-center h-16 px-4 border-b border-gray-700">
+                <img src="assets/logo.png" alt="GreenVision Logo" class="h-8 w-auto">
+                <span class="text-xl font-bold text-white mx-3">GreenVision</span>
+            </div>
+            
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="#" id="nav-dashboard" class="nav-link flex items-center p-3 rounded-lg text-gray-200 hover:bg-gray-700 hover:text-white transition-colors nav-link-active">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5 ms-3 rtl:ms-0 rtl:ml-3"></i>
+                    <span class="font-medium" data-lang-ar="لوحة التحكم" data-lang-en="Dashboard">لوحة التحكم</span>
+                </a>
+                <a href="#" id="nav-reports" class="nav-link flex items-center p-3 rounded-lg text-gray-200 hover:bg-gray-700 hover:text-white transition-colors">
+                    <i data-lucide="file-text" class="w-5 h-5 ms-3 rtl:ms-0 rtl:ml-3"></i>
+                    <span class="font-medium" data-lang-ar="إدارة التقارير" data-lang-en="Report Management">إدارة التقارير</span>
+                </a>
+                <a href="#" id="nav-settings" class="nav-link flex items-center p-3 rounded-lg text-gray-200 hover:bg-gray-700 hover:text-white transition-colors">
+                    <i data-lucide="settings" class="w-5 h-5 ms-3 rtl:ms-0 rtl:ml-3"></i>
+                    <span class="font-medium" data-lang-ar="الإعدادات" data-lang-en="Settings">الإعدادات</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main id="main-content" class="pt-16 pr-64">
+            <div class="p-4 sm:p-6 lg:p-8">
+
+                <div id="dashboard-view" class="space-y-6">
+                    <h1 class="text-3xl font-bold text-brand-dark dark:text-brand-light" data-lang-ar="لوحة التحكم" data-lang-en="Dashboard">
+                        لوحة التحكم
+                    </h1>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-white dark:bg-brand-dark p-6 rounded-lg shadow-md">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400" data-lang-ar="تنبيهات جديدة" data-lang-en="New Alerts">تنبيهات جديدة</p>
+                                    <p class="text-3xl font-bold text-red-500">12</p>
+                                </div>
+                                <i data-lucide="bell" class="w-8 h-8 text-red-500"></i>
+                            </div>
+                        </div>
+                        <div class="bg-white dark:bg-brand-dark p-6 rounded-lg shadow-md">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400" data-lang-ar="إجمالي الاكتشافات" data-lang-en="Total Detections">إجمالي الاكتشافات</p>
+                                    <p class="text-3xl font-bold text-brand-dark dark:text-brand-light">1,482</p>
+                                </div>
+                                <i data-lucide="leaf" class="w-8 h-8 text-brand-green-light"></i>
+                            </div>
+                        </div>
+                        <div class="bg-white dark:bg-brand-dark p-6 rounded-lg shadow-md">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400" data-lang-ar="مناطق مكتملة المسح" data-lang-en="Scanned Areas">مناطق مكتملة المسح</p>
+                                    <p class="text-3xl font-bold text-brand-dark dark:text-brand-light">89</p>
+                                </div>
+                                <i data-lucide="map" class="w-8 h-8 text-brand-green-light"></i>
+                            </div>
+                        </div>
+                        <div class="bg-white dark:bg-brand-dark p-6 rounded-lg shadow-md">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400" data-lang-ar="تقارير قيد المراجعة" data-lang-en="Pending Reports">تقارير قيد المراجعة</p>
+                                    <p class="text-3xl font-bold text-yellow-500">27</p>
+                                </div>
+                                <i data-lucide="file-clock" class="w-8 h-8 text-yellow-500"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                        
+                        <div class="lg:col-span-3 bg-white dark:bg-brand-dark p-6 rounded-lg shadow-md">
+                            <h2 class="text-xl font-bold text-brand-dark dark:text-brand-light mb-4" data-lang-ar="الخريطة الحرارية للمخاطر" data-lang-en="Risk Heatmap">
+                                الخريطة الحرارية للمخاطر
+                            </h2>
+                            <div id="map" class="w-full h-[500px] rounded-lg"></div> 
+                            <div class="flex justify-center space-x-4 rtl:space-x-reverse mt-4">
+                                <span class="flex items-center text-sm"><span class="w-3 h-3 rounded-full bg-red-500 me-2"></span><span data-lang-ar="خطر" data-lang-en="High Risk">خطر</span></span>
+                                <span class="flex items-center text-sm"><span class="w-3 h-3 rounded-full bg-orange-500 me-2"></span><span data-lang-ar="متوسط" data-lang-en="Medium Risk">متوسط</span></span>
+                                <span class="flex items-center text-sm"><span class="w-3 h-3 rounded-full bg-green-500 me-2"></span><span data-lang-ar="سليم" data-lang-en="Low Risk">سليم</span></span>
+                            </div>
+                        </div>
+                        
+                        <div class="lg:col-span-2 bg-white dark:bg-brand-dark p-6 rounded-lg shadow-md">
+                            <h2 class="text-xl font-bold text-brand-dark dark:text-brand-light mb-4" data-lang-ar="أكثر 5 أنواع غازية انتشاراً" data-lang-en="Top 5 Invasive Species">
+                                أكثر 5 أنواع غازية انتشاراً
+                            </h2>
+                            <!-- تم استبدال الصورة برسم بياني تفاعلي -->
+                            <div class="chart-container">
+                                <canvas id="species-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="reports-view" class="space-y-6 hidden">
+                    <h1 class="text-3xl font-bold text-brand-dark dark:text-brand-light" data-lang-ar="إدارة التقارير" data-lang-en="Report Management">
+                        إدارة التقارير
+                    </h1>
+                    
+                    <!-- نظام الفلاتر والبحث الجديد -->
+                    <div class="bg-white dark:bg-brand-dark p-6 rounded-lg shadow-md">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                            <!-- شريط البحث -->
+                            <div class="relative flex-1">
+                                <i data-lucide="search" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"></i>
+                                <input type="text" id="search-input" placeholder="ابحث في التقارير..." class="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-green-light">
+                            </div>
+                            
+                            <!-- أزرار الفلاتر السريعة -->
+                            <div class="flex flex-wrap gap-2">
+                                <button class="filter-btn px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors" data-filter="all">
+                                    <span data-lang-ar="الكل" data-lang-en="All">الكل</span>
+                                    <span class="filter-count bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 text-xs px-2 py-1 rounded-full ms-2">8</span>
+                                </button>
+                                <button class="filter-btn px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors" data-filter="pending">
+                                    <span data-lang-ar="قيد المراجعة" data-lang-en="Pending">قيد المراجعة</span>
+                                    <span class="filter-count bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-xs px-2 py-1 rounded-full ms-2">3</span>
+                                </button>
+                                <button class="filter-btn px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors" data-filter="in-progress">
+                                    <span data-lang-ar="تحت المعالجة" data-lang-en="In Progress">تحت المعالجة</span>
+                                    <span class="filter-count bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs px-2 py-1 rounded-full ms-2">2</span>
+                                </button>
+                                <button class="filter-btn px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors" data-filter="completed">
+                                    <span data-lang-ar="مكتمل" data-lang-en="Completed">مكتمل</span>
+                                    <span class="filter-count bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs px-2 py-1 rounded-full ms-2">3</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- الفلاتر المتقدمة -->
+                        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg mb-6">
+                            <div class="flex flex-col md:flex-row md:items-center gap-4">
+                                <div class="flex-1">
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" data-lang-ar="فلترة حسب النوع النباتي" data-lang-en="Filter by Species">فلترة حسب النوع النباتي</label>
+                                    <select id="species-filter" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-green-light">
+                                        <option value="all" data-lang-ar="جميع الأنواع" data-lang-en="All Species">جميع الأنواع</option>
+                                        <option value="Prosopis juliflora">Prosopis juliflora</option>
+                                        <option value="Opuntia ficus-indica">Opuntia ficus-indica</option>
+                                        <option value="Nicotiana glauca">Nicotiana glauca</option>
+                                        <option value="Tamarix aphylla">Tamarix aphylla</option>
+                                    </select>
+                                </div>
+                                <div class="flex-1">
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" data-lang-ar="فلترة حسب التاريخ" data-lang-en="Filter by Date">فلترة حسب التاريخ</label>
+                                    <select id="date-filter" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-green-light">
+                                        <option value="all" data-lang-ar="جميع التواريخ" data-lang-en="All Dates">جميع التواريخ</option>
+                                        <option value="today" data-lang-ar="اليوم" data-lang-en="Today">اليوم</option>
+                                        <option value="week" data-lang-ar="هذا الأسبوع" data-lang-en="This Week">هذا الأسبوع</option>
+                                        <option value="month" data-lang-ar="هذا الشهر" data-lang-en="This Month">هذا الشهر</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-end">
+                                    <button id="reset-filters" class="px-4 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                        <span data-lang-ar="إعادة التعيين" data-lang-en="Reset">إعادة التعيين</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- نتائج البحث -->
+                        <div class="mb-4 flex items-center justify-between">
+                            <p id="results-count" class="text-sm text-gray-600 dark:text-gray-400" data-lang-ar="عرض 8 من 8 تقرير" data-lang-en="Showing 8 of 8 reports">عرض 8 من 8 تقرير</p>
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm text-gray-600 dark:text-gray-400" data-lang-ar="ترتيب حسب:" data-lang-en="Sort by:">ترتيب حسب:</span>
+                                <select id="sort-by" class="text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-green-light">
+                                    <option value="date-desc" data-lang-ar="الأحدث أولاً" data-lang-en="Newest First">الأحدث أولاً</option>
+                                    <option value="date-asc" data-lang-ar="الأقدم أولاً" data-lang-en="Oldest First">الأقدم أولاً</option>
+                                    <option value="name" data-lang-ar="اسم المهمة" data-lang-en="Mission Name">اسم المهمة</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- جدول التقارير -->
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="py-3 text-start text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" data-lang-ar="المهمة" data-lang-en="Mission">المهمة</th>
+                                        <th scope="col" class="py-3 text-start text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" data-lang-ar="نوع النبات المكتشف" data-lang-en="Species Detected">نوع النبات المكتشف</th>
+                                        <th scope="col" class="py-3 text-start text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" data-lang-ar="التاريخ" data-lang-en="Date">التاريخ</th>
+                                        <th scope="col" class="py-3 text-start text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" data-lang-ar="ملخص التقرير" data-lang-en="Report Summary">ملخص التقرير</th>
+                                        <th scope="col" class="py-3 text-start text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" data-lang-ar="الصور المُعالجة" data-lang-en="Processed Images">الصور المُعالجة</th>
+                                        <th scope="col" class="py-3 text-start text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" data-lang-ar="الحالة" data-lang-en="Status">الحالة</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reports-table-body" class="divide-y divide-gray-200 dark:divide-gray-700 text-sm text-gray-900 dark:text-gray-200">
+                                    <!-- سيتم ملء هذا القسم بواسطة JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- رسالة عدم وجود نتائج -->
+                        <div id="no-results" class="hidden text-center py-8">
+                            <i data-lucide="search-x" class="w-12 h-12 text-gray-400 mx-auto mb-4"></i>
+                            <p class="text-gray-500 dark:text-gray-400" data-lang-ar="لم يتم العثور على تقارير تطابق معايير البحث" data-lang-en="No reports found matching your search criteria">لم يتم العثور على تقارير تطابق معايير البحث</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="settings-view" class="space-y-6 hidden">
+                     <h1 class="text-3xl font-bold text-brand-dark dark:text-brand-light" data-lang-ar="الإعدادات" data-lang-en="Settings">
+                        الإعدادات
+                    </h1>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        
+                        <div class="lg:col-span-1 space-y-6">
+                            <div class="bg-white dark:bg-brand-dark p-6 rounded-lg shadow-md">
+                                <h2 class="text-xl font-bold text-brand-dark dark:text-brand-light mb-4" data-lang-ar="إدارة الحساب" data-lang-en="Account Management">
+                                    إدارة الحساب
+                                </h2>
+                                <form class="space-y-4">
+                                    <div>
+                                        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300" data-lang-ar="الاسم" data-lang-en="Name">الاسم</label>
+                                        <input type="text" id="name" value="د. أحمد" class="mt-1 w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-brand-dark dark:text-brand-light focus:outline-none focus:ring-2 focus:ring-brand-green-light">
+                                    </div>
+                                    <div>
+                                        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300" data-lang-ar="البريد الإلكتروني" data-lang-en="Email">البريد الإلكتروني</label>
+                                        <input type="email" id="email" value="d.ahmed@kau.edu.sa" class="mt-1 w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-brand-dark dark:text-brand-light focus:outline-none focus:ring-2 focus:ring-brand-green-light">
+                                    </div>
+                                    <hr class="dark:border-gray-700">
+                                    <div>
+                                        <label for="new_password" class="block text-sm font-medium text-gray-700 dark:text-gray-300" data-lang-ar="كلمة المرور الجديدة" data-lang-en="New Password">كلمة المرور الجديدة</label>
+                                        <input type="password" id="new_password" class="mt-1 w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-brand-dark dark:text-brand-light focus:outline-none focus:ring-2 focus:ring-brand-green-light" data-lang-placeholder-ar="اتركها فارغة لعدم التغيير" data-lang-placeholder-en="Leave blank to keep unchanged" placeholder="اتركها فارغة لعدم التغيير">
+                                    </div>
+                                    <div>
+                                        <button type="submit" class="w-full justify-center py-2 px-4 rounded-lg text-white bg-brand-green hover:bg-brand-green-light focus:outline-none focus:ring-2 focus:ring-brand-green-light">
+                                            <span data-lang-ar="حفظ تغييرات الحساب" data-lang-en="Save Account Changes">حفظ تغييرات الحساب</span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-2 space-y-6">
+                            <div class="bg-white dark:bg-brand-dark p-6 rounded-lg shadow-md">
+                                <h2 class="text-xl font-bold text-brand-dark dark:text-brand-light mb-4" data-lang-ar="تفضيلات الإشعارات" data-lang-en="Notification Preferences">
+                                    تفضيلات الإشعارات
+                                </h2>
+                                <form class="space-y-6">
+                                    <fieldset>
+                                        <legend class="text-lg font-medium text-brand-dark dark:text-brand-light" data-lang-ar="إشعارات النظام (الجرس 🔔)" data-lang-en="In-App Notifications (Bell 🔔)">إشعارات النظام (الجرس 🔔)</legend>
+                                        <div class="mt-4 space-y-3">
+                                            <label class="flex items-center space-x-3 rtl:space-x-reverse">
+                                                <input type="checkbox" checked class="form-checkbox">
+                                                <span class="text-sm text-gray-700 dark:text-gray-300" data-lang-ar="تنبيهي عند رفع تقرير جديد" data-lang-en="Notify me when a new report is uploaded">تنبيهي عند رفع تقرير جديد</span>
+                                            </label>
+                                            <label class="flex items-center space-x-3 rtl:space-x-reverse">
+                                                <input type="checkbox" checked class="form-checkbox">
+                                                <span class="text-sm text-gray-700 dark:text-gray-300" data-lang-ar="تنبيهي فقط عند اكتشاف خطر (عالي)" data-lang-en="Notify me only for (High) risk detections">تنبيهي فقط عند اكتشاف خطر (عالي)</span>
+                                            </label>
+                                        </div>
+                                    </fieldset>
+                                    <hr class="dark:border-gray-700">
+                                    <fieldset>
+                                        <legend class="text-lg font-medium text-brand-dark dark:text-brand-light" data-lang-ar="إشعارات البريد الإلكتروني" data-lang-en="Email Notifications">إشعارات البريد الإلكتروني</legend>
+                                        <div class="mt-4 space-y-3">
+                                            <label class="flex items-center space-x-3 rtl:space-x-reverse">
+                                                <input type="checkbox" class="form-checkbox">
+                                                <span class="text-sm text-gray-700 dark:text-gray-300" data-lang-ar="إرسال ملخص يومي" data-lang-en="Send me a daily summary">إرسال ملخص يومي</span>
+                                            </label>
+                                            <label class="flex items-center space-x-3 rtl:space-x-reverse">
+                                                <input type="checkbox" class="form-checkbox">
+                                                <span class="text-sm text-gray-700 dark:text-gray-300" data-lang-ar="إرسال تنبيه فوري عبر الإيميل عند وجود خطر (عالي)" data-lang-en="Send an immediate email for (High) risk detections">إرسال تنبيه فوري عبر الإيميل عند وجود خطر (عالي)</span>
+                                            </label>
+                                        </div>
+                                    </fieldset>
+                                    <div class="pt-4">
+                                        <button type="submit" class="w-full justify-center py-2 px-4 rounded-lg text-white bg-brand-green hover:bg-brand-green-light focus:outline-none focus:ring-2 focus:ring-brand-green-light">
+                                            <span data-lang-ar="حفظ التفضيلات" data-lang-en="Save Preferences">حفظ التفضيلات</span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+        </main>
+    </div>
+
+    <!-- المودال المعدل مع التابات - بحجم أصغر -->
+    <div id="ai-modal" class="fixed inset-0 z-40 flex items-center justify-center p-4 bg-black bg-opacity-50 transition-opacity duration-300 hidden opacity-0">
+        <div id="modal-content" class="bg-white dark:bg-brand-dark w-full max-w-2xl rounded-lg shadow-xl transform transition-all duration-300 scale-95 opacity-0 max-h-[85vh] overflow-hidden flex flex-col">
+            <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+                <h3 class="text-xl font-bold text-brand-dark dark:text-brand-light" data-lang-ar="ملخص التقرير" data-lang-en="Report Summary">ملخص التقرير</h3>
+                <button id="close-modal-btn" class="p-2 rounded-full text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            
+            <!-- التابات -->
+            <div class="border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+                <div class="flex">
+                    <button id="tab-summary" class="tab-btn tab-active px-4 py-2 text-sm font-medium rounded-t-lg transition-colors" data-tab="summary">
+                        <span data-lang-ar="ملخص التحليل" data-lang-en="AI Summary">ملخص التحليل</span>
+                    </button>
+                    <button id="tab-map" class="tab-btn px-4 py-2 text-sm font-medium rounded-t-lg transition-colors" data-tab="map">
+                        <span data-lang-ar="الخريطة الشاملة" data-lang-en="Overview Map">الخريطة الشاملة</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- محتوى التابات - مع إمكانية التمرير -->
+            <div class="flex-1 overflow-y-auto p-4">
+                <!-- تاب ملخص التحليل -->
+                <div id="tab-content-summary" class="tab-content space-y-4">
+                    <!-- اقتراحات الذكاء الاصطناعي النصية -->
+                    <div>
+                        <h4 class="text-lg font-medium text-brand-dark dark:text-brand-light mb-2" data-lang-ar="مقترحات الذكاء الاصطناعي" data-lang-en="AI Recommendations">مقترحات الذكاء الاصطناعي</h4>
+                        <div class="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 space-y-2 text-sm">
+                            <p><span class="font-medium" data-lang-ar="لنوع نبات:" data-lang-en="For species:">لنوع نبات:</span> <span class="font-bold">Prosopis juliflora</span></p>
+                            <p data-lang-ar="هذا النوع شديد التحمل ويتطلب إجراءات تدخل سريعة. يوصى بالإزالة الميكانيكية الفورية لجميع النباتات البالغة." data-lang-en="This species is highly resilient and requires rapid intervention. Recommended action is immediate mechanical removal of all adult plants.">هذا النوع شديد التحمل ويتطلب إجراءات تدخل سريعة. يوصى بالإزالة الميكانيكية الفورية لجميع النباتات البالغة.</p>
+                            <p data-lang-ar="يجب مراقبة المنطقة لمدة 6 أشهر تالية لإزالة أي شتلات جديدة تنمو من بنك البذور في التربة." data-lang-en="Area must be monitored for the next 6 months to remove any new seedlings emerging from the soil seed bank.">يجب مراقبة المنطقة لمدة 6 أشهر تالية لإزالة أي شتلات جديدة تنمو من بنك البذور في التربة.</p>
+                            <div class="flex flex-wrap gap-2 mt-3">
+                                <span class="px-2 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded text-xs" data-lang-ar="الكثافة: عالية" data-lang-en="Density: High">الكثافة: عالية</span>
+                                <span class="px-2 py-1 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 rounded text-xs" data-lang-ar="مستوى الخطورة: مرتفع" data-lang-en="Risk Level: High">مستوى الخطورة: مرتفع</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- معرض الصور -->
+                    <div>
+                        <h4 class="text-lg font-medium text-brand-dark dark:text-brand-light mb-2" data-lang-ar="أهم الصور المُعالجة" data-lang-en="Top Processed Images">أهم الصور المُعالجة</h4>
+                        <div class="carousel-container">
+                            <div class="carousel-slides">
+                                <img src="https://via.placeholder.com/400x180/046a38/ffffff?text=Plant+1" alt="Plant Detection 1" class="carousel-slide active rounded">
+                                <img src="https://via.placeholder.com/400x180/38a169/ffffff?text=Plant+2" alt="Plant Detection 2" class="carousel-slide rounded">
+                                <img src="https://via.placeholder.com/400x180/2f855a/ffffff?text=Plant+3" alt="Plant Detection 3" class="carousel-slide rounded">
+                                <img src="https://via.placeholder.com/400x180/276749/ffffff?text=Plant+4" alt="Plant Detection 4" class="carousel-slide rounded">
+                                <img src="https://via.placeholder.com/400x180/22543d/ffffff?text=Plant+5" alt="Plant Detection 5" class="carousel-slide rounded">
+                            </div>
+                            
+                            <button class="carousel-nav prev">
+                                <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                            </button>
+                            <button class="carousel-nav next">
+                                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                            </button>
+                            
+                            <div class="carousel-indicators">
+                                <span class="carousel-indicator active" data-slide="0"></span>
+                                <span class="carousel-indicator" data-slide="1"></span>
+                                <span class="carousel-indicator" data-slide="2"></span>
+                                <span class="carousel-indicator" data-slide="3"></span>
+                                <span class="carousel-indicator" data-slide="4"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- تاب الخريطة الشاملة -->
+                <div id="tab-content-map" class="tab-content hidden">
+                    <h4 class="text-lg font-medium text-brand-dark dark:text-brand-light mb-2" data-lang-ar="الخريطة الشاملة للموقع" data-lang-en="Site Overview Map">الخريطة الشاملة للموقع</h4>
+                    <div class="bg-gray-100 dark:bg-gray-800 rounded-lg p-3">
+                        <img src="https://via.placeholder.com/600x250/1a202c/ffffff?text=Overview+Map+with+Detection+Points" alt="Overview Map" class="w-full h-auto rounded">
+                    </div>
+                    <div class="mt-3 text-sm text-gray-600 dark:text-gray-400">
+                        <p data-lang-ar="هذه الخريطة توضح جميع النقاط المكتشفة لنبات Prosopis juliflora في منطقة وادي حنيفة." data-lang-en="This map shows all detected points of Prosopis juliflora in the Wadi Hanifa area.">هذه الخريطة توضح جميع النقاط المكتشفة لنبات Prosopis juliflora في منطقة وادي حنيفة.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-4 border-t border-gray-200 dark:border-gray-700 text-end flex-shrink-0">
+                <button id="close-modal-footer-btn" class="px-4 py-2 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600" data-lang-ar="إغلاق" data-lang-en="Close">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/specialist.js"></script>
+
+</body>
+</html>
