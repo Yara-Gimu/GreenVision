@@ -68,7 +68,8 @@ pip install -r requirements.txt
 
 # 5. Run the FastAPI Server
 python backend/main.py
-👩‍💻 Author
+
+## 👩‍💻 Author
 Yara (CEO & Lead Engineer)
 
 Computer Science Student | Cloud Computing & AI Enthusiast
