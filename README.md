@@ -49,9 +49,8 @@ By integrating autonomous drone imagery with advanced **Computer Vision AI** and
 
 ## 📥 Installation & Local Setup
 
-```bash
 # 1. Clone the repository
-git clone [https://github.com/YourUsername/GreenVision.git](https://github.com/YourUsername/GreenVision.git)
+git clone [https://github.com/Yara-Gimu/GreenVision.git](https://github.com/Yara-Gimu/GreenVision.git)
 cd GreenVision
 
 # 2. Create a virtual environment
@@ -69,7 +68,6 @@ pip install -r requirements.txt
 
 # 5. Run the FastAPI Server
 python backend/main.py
-
 👩‍💻 Author
 Yara (CEO & Lead Engineer)
 
