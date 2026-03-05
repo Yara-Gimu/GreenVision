@@ -1,0 +1,14 @@
+# Environments
+.venv/
+env/
+__pycache__/
+
+# Secrets
+.env
+
+# Database
+*.db
+greenvision.db
+
+# Uploads
+uploads/

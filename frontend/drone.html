@@ -1,0 +1,1249 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenVision - بوابة المشغل</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="assets/logo.png">
+    
+    <style>
+        :root {
+            --primary: #10B981; /* Emerald-500 */
+            --sidebar-w: 280px;
+        }
+        
+        body { 
+            font-family: 'Cairo', sans-serif; 
+            background-color: #f8fafc; /* bg-slate-50 */
+            color: #334155; 
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- 1. SIDEBAR (يمين - ثابت) --- */
+        .sidebar {
+            width: var(--sidebar-w);
+            background: #ffffff;
+            height: 100vh;
+            position: fixed;
+            right: 0;
+            top: 0;
+            z-index: 50;
+            border-left: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Sidebar Header - Logo Area */
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .sidebar-header img {
+            height: 40px;
+            width: auto;
+        }
+
+        /* Mission List Area */
+        .sidebar-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        /* Mission Card */
+        .mission-card {
+            background: #ffffff;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f1f5f9;
+        }
+        
+        .mission-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+            transform: translateX(-2px);
+        }
+        
+        /* Status Dots */
+        .status-dot { 
+            width: 8px; 
+            height: 8px; 
+            border-radius: 50%; 
+            display: inline-block; 
+            margin-left: 5px; 
+        }
+        .status-dot.completed { background-color: #10B981; }
+        .status-dot.processing { background-color: #F59E0B; }
+        .status-dot.failed { background-color: #EF4444; }
+
+        /* Sidebar Footer - User Info */
+        .sidebar-footer {
+            padding: 1.25rem;
+            border-top: 1px solid #f1f5f9;
+            background: #f8fafc;
+        }
+
+        /* --- 2. MAIN CONTENT --- */
+        .main-content {
+            margin-right: var(--sidebar-w);
+            padding: 2.5rem;
+            min-height: 100vh;
+        }
+
+        /* Main Header */
+        .main-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .main-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            text-align: right;
+        }
+
+        .main-header p {
+            color: #6b7280;
+            font-size: 1rem;
+            text-align: right;
+        }
+
+        /* Form Container */
+        .form-container {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Form Inputs */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+            text-align: right;
+            font-size: 0.95rem;
+        }
+
+        .form-label span {
+            color: #ef4444;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            font-family: 'Cairo', sans-serif;
+            background: white;
+            text-align: right;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: #9ca3af;
+            text-align: right;
+        }
+
+        /* Upload Zone */
+        .upload-zone {
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            background: #f9fafb;
+            transition: all 0.3s;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+        
+        .upload-zone:hover {
+            border-color: var(--primary);
+            background: #f0fdf4;
+        }
+        
+        .upload-zone i { 
+            font-size: 2.5rem; 
+            color: #9ca3af; 
+            transition: 0.3s; 
+            margin-bottom: 1rem; 
+        }
+        
+        .upload-zone:hover i { 
+            color: var(--primary); 
+        }
+        
+        .upload-zone h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+        
+        .upload-zone p {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        
+        .upload-zone.dragover {
+            border-color: var(--primary);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        /* File List */
+        .file-list {
+            max-height: 200px;
+            overflow-y: auto;
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            border-bottom: 1px solid #e5e7eb;
+            background: white;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .file-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        /* Submit Button */
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+            width: 100%;
+            margin-top: 2rem;
+        }
+        
+        .btn-primary:disabled { 
+            background: #9ca3af; 
+            cursor: not-allowed; 
+            opacity: 0.7;
+            box-shadow: none;
+        }
+        
+        .btn-primary:not(:disabled):hover { 
+            background: #059669;
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3); 
+        }
+
+        /* --- 3. MODALS & TOAST --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(4px);
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            animation: modalSlideIn 0.3s ease;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e5e7eb;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: #1f2937;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            z-index: 2000;
+            animation: slideIn 0.3s ease, slideOut 0.3s ease 4.7s forwards;
+            max-width: 400px;
+            text-align: right;
+            display: none;
+        }
+        
+        .toast.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .toast.success {
+            background: var(--primary);
+        }
+        
+        .toast.error {
+            background: #ef4444;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+        }
+
+        /* Grid Layout for Form */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .sidebar { width: 250px; }
+            .main-content { margin-right: 250px; }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar { 
+                position: relative;
+                width: 100%;
+                height: auto;
+                max-height: 50vh;
+            }
+            
+            .main-content { 
+                margin-right: 0;
+                padding: 1.5rem;
+            }
+            
+            .form-container {
+                padding: 1.5rem;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .upload-zone {
+                padding: 2rem 1.5rem;
+            }
+            
+            .main-header h1 {
+                font-size: 1.75rem;
+            }
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .btn-logout {
+            width: 100%;
+            justify-content: center;
+            background: transparent;
+            color: #64748B;
+            border: 1px solid #E5E7EB;
+        }
+
+        .btn-logout:hover {
+            background: #FEF2F2;
+            color: #DC2626;
+            border-color: #FECACA;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <!-- Logo and Title -->
+        <div class="sidebar-header">
+            <img src="assets/logo.png" alt="GreenVision Logo">
+            <div class="text-right">
+                <h1 class="font-bold text-gray-800 text-lg">GreenVision</h1>
+                <p class="text-sm text-gray-500">بوابة المشغل</p>
+            </div>
+        </div>
+
+        <!-- Survey Sites List Header -->
+        <div class="px-4 pt-2 pb-3">
+            <h2 class="text-sm font-semibold text-gray-600 flex items-center gap-2">
+                <i class="fas fa-list-ul text-emerald-500"></i>
+                سجل المواقع الأخيرة
+            </h2>
+        </div>
+        
+        <!-- Survey Sites List -->
+        <div id="missionsList" class="sidebar-scroll">
+            <div class="text-center py-8 text-gray-400">
+                <i class="fas fa-spinner fa-spin text-lg mb-3"></i>
+                <p class="text-sm">جاري تحميل المواقع...</p>
+            </div>
+        </div>
+
+        <!-- User Info & Logout -->
+        <div class="sidebar-footer">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center text-emerald-600 shadow-sm">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm font-semibold text-gray-700">المشغل</p>
+                        <p class="text-xs text-emerald-500">● متصل</p>
+                    </div>
+                </div>
+                <button onclick="window.location.href='index.html'" class="btn btn-logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    تسجيل الخروج
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="main-header">
+            <h1>إضافة موقع مسح جديد</h1>
+            <p>قم برفع الصور للتحليل بالذكاء الاصطناعي</p>
+        </div>
+
+        <div class="form-container">
+            <form id="uploadForm">
+                <!-- Survey Site Details -->
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label" for="missionName">
+                            اسم موقع المسح <span>*</span>
+                        </label>
+                        <input type="text" id="missionName" class="form-input" 
+                               placeholder="مثال: مسح وادي حنيفة" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="missionDate">
+                            تاريخ المسح <span>*</span>
+                        </label>
+                        <input type="date" id="missionDate" class="form-input" required>
+                    </div>
+                </div>
+
+                <!-- Operator Notes -->
+                <div class="form-group">
+                    <label class="form-label" for="operatorNotes">
+                        ملاحظات المشغل (اختياري)
+                    </label>
+                    <textarea id="operatorNotes" class="form-input" 
+                              placeholder="أضف ملاحظات عن موقع المسح..." 
+                              rows="3" style="resize: vertical;"></textarea>
+                </div>
+
+                <!-- File Upload -->
+                <div class="form-group">
+                    <label class="form-label">
+                        رفع الصور <span>*</span>
+                        <span class="font-normal text-gray-500 text-sm">(صور أو ملف ZIP)</span>
+                    </label>
+                    
+                    <div id="dropZone" class="upload-zone">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h3>اسحب الصور هنا أو انقر للرفع</h3>
+                        
+                        <!-- Hidden file input -->
+                        <input type="file" id="file-upload" class="hidden" accept="image/*,.zip" multiple>
+                    </div>
+                    
+                    <div id="fileList" class="file-list">
+                        <!-- Files will be listed here -->
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="button" id="submitBtn" class="btn-primary" disabled>
+                    <i class="fas fa-paper-plane"></i>
+                    إرسال
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Processing Modal -->
+    <div id="processingModal" class="modal">
+        <div class="modal-content">
+            <!-- Close button (only visible on error) -->
+            <button type="button" id="closeProcessingBtn" style="display: none;" onclick="closeProcessingModal()" class="absolute top-4 left-4 text-gray-400 hover:text-gray-600 text-xl">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <!-- Spinner (visible during processing) -->
+            <div id="processingSpinner" class="flex justify-center mb-4" style="display: flex;">
+                <div class="relative w-16 h-16">
+                    <div class="absolute inset-0 border-4 border-emerald-200 rounded-full"></div>
+                    <div class="absolute inset-0 border-4 border-transparent border-t-emerald-600 rounded-full animate-spin"></div>
+                </div>
+            </div>
+            
+            <!-- Modal title (changes color on error) -->
+            <h3 id="processingTitle" class="text-2xl font-bold text-gray-800 mb-4">جاري رفع البيانات...</h3>
+            
+            <!-- Critical Warning Box -->
+            <div id="warningBox" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4 font-bold text-sm">
+                ⚠️ تحذير: الرجاء عدم إغلاق أو تحديث هذه الصفحة حتى تكتمل العملية.
+            </div>
+            
+            <div id="progressText" style="display: none !important;"></div>
+            
+            <!-- Error message (shown only on error) -->
+            <div id="errorMessage" style="display: none;" class="mt-4 p-4 bg-red-50 border border-red-300 rounded-lg">
+                <div class="flex items-start gap-3">
+                    <i class="fas fa-exclamation-circle text-red-600 text-lg mt-1"></i>
+                    <div class="flex-1 text-right">
+                        <p class="text-red-700 text-sm font-semibold mb-2">حدث خطأ</p>
+                        <p id="errorDetails" class="text-red-600 text-sm"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Retry button (shown only on error) -->
+            <button type="button" id="retryBtn" style="display: none;" class="btn-primary mt-4 w-full">
+                <i class="fas fa-redo-alt"></i>
+                حاول مرة أخرى
+            </button>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <!-- Simple Checkmark -->
+            <div class="flex justify-center mb-6">
+                <div class="w-20 h-20 bg-emerald-500 rounded-full flex items-center justify-center">
+                    <i class="fas fa-check text-white text-3xl"></i>
+                </div>
+            </div>
+            
+            <!-- Success Title -->
+            <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">تم الإرسال بنجاح</h3>
+            
+            <!-- Operational Description -->
+            <p class="text-gray-600 mb-6 text-sm leading-relaxed text-center">
+                تم حفظ بيانات الموقع والصور في النظام بنجاح. يمكنك الآن إغلاق هذه النافذة.
+            </p>
+            
+            <!-- OK Button -->
+            <button onclick="closeSuccessModal()" class="btn-primary w-full">
+                <i class="fas fa-check ml-2"></i>
+                حسناً
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_URL = 'http://127.0.0.1:8000/api';
+        
+        // DOM Elements
+        const fileInput = document.getElementById('file-upload');
+        const dropZone = document.getElementById('dropZone');
+        const fileList = document.getElementById('fileList');
+        const missionName = document.getElementById('missionName');
+        const missionDate = document.getElementById('missionDate');
+        const submitBtn = document.getElementById('submitBtn');
+        const toast = document.getElementById('toast');
+        let selectedFiles = [];
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🎬 Initializing drone page...');
+            
+            // Add global error handler for uncaught exceptions
+            window.addEventListener('error', (event) => {
+                console.error('❌ Global error:', event.error);
+                // Don't stop the page!
+            });
+            
+            // Add unhandled rejection handler
+            window.addEventListener('unhandledrejection', (event) => {
+                console.error('❌ Unhandled rejection:', event.reason);
+                // Don't stop the page!
+            });
+            
+            // Disable submit button by default
+            submitBtn.disabled = true;
+            
+            // Set today's date as default for the mission date field
+            const today = new Date().toLocaleDateString('en-CA');
+            missionDate.value = today;
+            
+            // Load missions
+            loadMissions();
+            
+            // Add event listeners for validation
+            missionName.addEventListener('input', validateForm);
+            missionDate.addEventListener('change', validateForm);
+            
+            // CRITICAL: Prevent form submission on Enter key or any default submit behavior
+            const uploadForm = document.getElementById('uploadForm');
+            uploadForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            });
+            
+            // Double protection: Prevent Enter key submission
+            //  on any input
+            uploadForm.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+            });
+            
+            // Retry button handler
+            const retryBtn = document.getElementById('retryBtn');
+            if (retryBtn) {
+                retryBtn.addEventListener('click', () => {
+                    console.log('🔄 User clicked retry button');
+                    // Close modal and trigger button click to submit again
+                    document.getElementById('processingModal').style.display = 'none';
+                    // Trigger the submit button click to re-attempt upload
+                    document.getElementById('submitBtn').click();
+                });
+            }
+            
+            console.log('✓ Drone page initialized successfully');
+        });
+        
+        // Update file list display
+        function updateFileList() {
+            if (selectedFiles.length === 0) {
+                fileList.style.display = 'none';
+                return;
+            }
+            
+            fileList.style.display = 'block';
+            fileList.innerHTML = '';
+            
+            selectedFiles.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                
+                const fileInfo = document.createElement('div');
+                fileInfo.className = 'flex items-center gap-3';
+                
+                const icon = document.createElement('i');
+                if (file.name.toLowerCase().endsWith('.zip')) {
+                    icon.className = 'fas fa-file-archive text-amber-500';
+                } else {
+                    icon.className = 'fas fa-image text-emerald-500';
+                }
+                
+                const fileName = document.createElement('span');
+                fileName.className = 'text-sm font-medium text-gray-800';
+                fileName.textContent = file.name.length > 30 ? file.name.substring(0, 30) + '...' : file.name;
+                
+                const fileSize = document.createElement('span');
+                fileSize.className = 'text-xs text-gray-500';
+                fileSize.textContent = formatFileSize(file.size);
+                
+                fileInfo.appendChild(icon);
+                fileInfo.appendChild(fileName);
+                fileInfo.appendChild(fileSize);
+                
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'text-red-500 hover:text-red-700 text-sm';
+                removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                removeBtn.onclick = (e) => {
+                    e.preventDefault();
+                    selectedFiles.splice(index, 1);
+                    updateFileList();
+                    validateForm();
+                };
+                
+                fileItem.appendChild(fileInfo);
+                fileItem.appendChild(removeBtn);
+                fileList.appendChild(fileItem);
+            });
+        }
+        
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['بايت', 'كيلوبايت', 'ميجابايت', 'جيجابايت'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        // Validate form and update button state
+        function validateForm() {
+            const hasMissionName = missionName.value.trim().length > 0;
+            const hasFiles = selectedFiles.length > 0;
+            
+            if (hasMissionName && hasFiles) {
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
+            }
+        }
+        
+        // Toast Notification Function
+        function showToast(message, type = 'success') {
+            toast.textContent = message;
+            toast.className = `toast show ${type}`;
+            
+            setTimeout(() => {
+                toast.className = 'toast';
+            }, 5000);
+        }
+        
+        // Handle file selection from the unified file input
+        function handleFileSelection(files) {
+            selectedFiles = Array.from(files);
+            updateFileList();
+            validateForm();
+            
+            // Show GPS notification when files are selected
+            if (files.length > 0 && files[0].type.startsWith('image/')) {
+                showToast('📍 تم التقاط إحداثيات الموقع بنجاح', 'success');
+            }
+        }
+        
+        fileInput.addEventListener('change', (e) => {
+            handleFileSelection(e.target.files);
+        });
+        
+        // Handle drag and drop
+        dropZone.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+        
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+        
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            
+            if (e.dataTransfer.files.length) {
+                handleFileSelection(e.dataTransfer.files);
+            }
+        });
+        
+        // Load missions for sidebar
+        async function loadMissions() {
+            try {
+                console.log('📋 Loading missions...');
+                const response = await fetch(`${API_URL}/missions`);
+                
+                if (!response.ok) {
+                    console.error(`❌ Failed to load missions: HTTP ${response.status}`, response.statusText);
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const missions = await response.json();
+                console.log(`✓ Loaded ${missions.length || 0} missions`);
+                
+                const missionsList = document.getElementById('missionsList');
+                
+                if (!missions || missions.length === 0) {
+                    missionsList.innerHTML = `
+                        <div class="text-center py-8 text-gray-400">
+                            <i class="fas fa-inbox text-2xl mb-3"></i>
+                            <p class="text-sm">لا توجد مهام مرسلة بعد</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                missionsList.innerHTML = '';
+                
+                missions.forEach(mission => {
+                    const missionCard = document.createElement('div');
+                    missionCard.className = 'mission-card';
+                    
+                    let statusDotClass = 'completed';
+                    let statusText = 'تم الإرسال بنجاح';
+                    
+                    if (mission.upload_status === 'failed') {
+                        statusDotClass = 'failed';
+                        statusText = 'فشل الإرسال';
+                    }
+                    
+                    missionCard.innerHTML = `
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-bold text-sm text-gray-800">${mission.name}</h4>
+                            <div class="flex items-center text-xs text-gray-500 gap-1">
+                                ${statusText} <span class="status-dot ${statusDotClass}"></span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-600 mb-2">
+                            <i class="far fa-calendar ml-1"></i>
+                            ${mission.date}
+                        </p>
+                        <div class="flex justify-between text-xs">
+                            <span class="text-gray-600">
+                                <i class="fas fa-image ml-1"></i>
+                                ${mission.processed_images}/${mission.total_images} صورة
+                            </span>
+                            <span class="text-gray-600">
+                                ${new Date(mission.created_at).toLocaleDateString('ar-SA')}
+                            </span>
+                        </div>
+                    `;
+                    
+                    missionsList.appendChild(missionCard);
+                });
+                
+            } catch (error) {
+                console.error('❌ Error loading missions:', error);
+                const missionsList = document.getElementById('missionsList');
+                missionsList.innerHTML = `
+                    <div class="text-center py-8 text-gray-400">
+                        <i class="fas fa-exclamation-triangle text-2xl mb-3"></i>
+                        <p class="text-sm">خطأ في تحميل المهام</p>
+                        <p class="text-xs mt-1">تأكد من اتصال الخادم</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Handle button click for smart polling submission (completely detached from form)
+        document.getElementById('submitBtn').onclick = async () => {
+            console.log('🚀 Upload process started via button click');
+            
+            const missionNameValue = missionName.value;
+            const missionDateValue = missionDate.value;
+            const operatorNotesValue = document.getElementById('operatorNotes').value;
+            
+            if (selectedFiles.length === 0) {
+                showToast('الرجاء اختيار ملفات للرفع', 'error');
+                return;
+            }
+            
+            console.log(`📦 Uploading ${selectedFiles.length} files...`);
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+            
+            // Show processing modal and reset to loading state
+            const processingModal = document.getElementById('processingModal');
+            processingModal.style.display = 'flex';
+            resetProcessingModal(); // Reset all modal states to "loading"
+            console.log('📊 Processing modal shown');
+            
+            // Prevent Escape key from closing modal during processing
+            const preventEscapeClose = (e) => {
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    return false;
+                }
+            };
+            document.addEventListener('keydown', preventEscapeClose);
+            
+            // Prevent clicking on backdrop from closing modal
+            const preventBackdropClose = (e) => {
+                if (e.target === processingModal) {
+                    e.preventDefault();
+                    return false;
+                }
+            };
+            processingModal.addEventListener('click', preventBackdropClose);
+            
+            // Also prevent the modal content click from bubbling
+            const modalContent = processingModal.querySelector('.modal-content');
+            modalContent.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+            
+            try {
+                const formData = new FormData();
+                formData.append('mission_name', missionNameValue);
+                formData.append('mission_date', missionDateValue);
+                formData.append('notes', operatorNotesValue);
+                
+                // DEBUG: Log the notes value
+                console.log('🔍 DEBUG - Operator Notes:');
+                console.log(`  Raw value: "${operatorNotesValue}"`);
+                console.log(`  Type: ${typeof operatorNotesValue}`);
+                console.log(`  Length: ${operatorNotesValue ? operatorNotesValue.length : 'null'}`);
+                console.log(`  Trimmed: "${operatorNotesValue ? operatorNotesValue.trim() : 'empty'}"`);
+                
+                // Check if we have a ZIP file
+                const zipFile = selectedFiles.find(file => file.name.toLowerCase().endsWith('.zip'));
+                
+                if (zipFile && selectedFiles.length === 1) {
+                    // Single ZIP file
+                    formData.append('zip_file', zipFile);
+                } else {
+                    // Multiple individual files
+                    selectedFiles.forEach(file => {
+                        if (!file.name.toLowerCase().endsWith('.zip')) {
+                            formData.append('files', file);
+                        }
+                    });
+                }
+                
+                console.log(`📤 Uploading to ${API_URL}/upload...`);
+                const response = await fetch(`${API_URL}/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                console.log('Upload Response Status:', response.status, response.statusText);
+                
+                if (!response.ok) {
+                    // Try to get error details
+                    let errorMsg = 'خطأ في الخادم';
+                    try {
+                        const errorData = await response.json();
+                        errorMsg = errorData.detail || errorMsg;
+                    } catch (e) {
+                        errorMsg = `خطأ ${response.status}: ${response.statusText}`;
+                    }
+                    throw new Error(errorMsg);
+                }
+                
+                const result = await response.json();
+                console.log('Upload Response Data:', result);
+                
+                // Verify mission_id exists
+                if (!result.mission_id) {
+                    console.error('❌ ERROR: mission_id not found in response!', result);
+                    throw new Error('لم يتم استلام معرّف المهمة من الخادم');
+                }
+                
+                console.log('✓ Upload successful, mission_id:', result.mission_id);
+                
+                // Update modal to show processing
+                const progressText = document.getElementById('progressText');
+                
+                // Keep processing modal open and poll the mission status
+                const missionId = result.mission_id;
+                await pollMissionStatus(missionId, processingModal, preventBackdropClose, preventEscapeClose);
+                
+            } catch (error) {
+                console.error('❌ Upload error:', error.message);
+                console.error('Error details:', error);
+                
+                // Determine specific error message
+                let userFriendlyMessage = error.message;
+                if (error.message === 'Failed to fetch') {
+                    userFriendlyMessage = 'لا يمكن الاتصال بالخادم. تأكد من أن API قيد التشغيل على http://127.0.0.1:8000';
+                }
+                
+                // Show error state in modal
+                showErrorState(userFriendlyMessage);
+            }
+        };
+        
+        // Reset modal to processing state
+        function resetProcessingModal() {
+            const spinner = document.getElementById('processingSpinner');
+            const title = document.getElementById('processingTitle');
+            const progressText = document.getElementById('progressText');
+            const errorMessage = document.getElementById('errorMessage');
+            const closeBtn = document.getElementById('closeProcessingBtn');
+            const retryBtn = document.getElementById('retryBtn');
+            const warningBox = document.getElementById('warningBox');
+            
+            // Reset to loading state
+            spinner.style.display = 'flex';
+            warningBox.style.display = 'block';
+            errorMessage.style.display = 'none';
+            closeBtn.style.display = 'none';
+            retryBtn.style.display = 'none';
+            
+            // Reset styles
+            title.className = 'text-2xl font-bold text-gray-800 mb-4';
+            
+            title.textContent = 'جاري رفع البيانات...';
+        }
+        
+        // Show error state in modal
+        function showErrorState(errorMsg) {
+            const spinner = document.getElementById('processingSpinner');
+            const title = document.getElementById('processingTitle');
+            const progressText = document.getElementById('progressText');
+            const errorMessage = document.getElementById('errorMessage');
+            const errorDetails = document.getElementById('errorDetails');
+            const closeBtn = document.getElementById('closeProcessingBtn');
+            const retryBtn = document.getElementById('retryBtn');
+            const warningBox = document.getElementById('warningBox');
+            
+            // Hide loading state
+            spinner.style.display = 'none';
+            progressText.style.display = 'none';
+            warningBox.style.display = 'none';
+            
+            // Show error state
+            errorMessage.style.display = 'block';
+            closeBtn.style.display = 'block';
+            retryBtn.style.display = 'block';
+            
+            // Update title and colors to red theme
+            title.className = 'text-2xl font-bold text-red-700 mb-4';
+            title.textContent = 'حدث خطأ في الرفع';
+            
+            errorDetails.textContent = errorMsg;
+            
+            // Re-enable submit button
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال المهمة';
+        }
+        
+        // Poll mission status with robust error handling
+        async function pollMissionStatus(missionId, processingModal, preventBackdropClose, preventEscapeClose) {
+            console.log(`🔍 Starting to poll mission ${missionId}`);
+            
+            let pollCount = 0;
+            const maxPolls = 300; // 10 minutes at 2s intervals
+            const pollIntervalTime = 2000; // 2 seconds
+            const minDisplayTime = 3000; // Minimum 3 seconds to show processing modal
+            const startTime = Date.now();
+            
+            return new Promise((resolve, reject) => {
+                const interval = setInterval(async () => {
+                    pollCount++;
+                    
+                    try {
+                        // Failsafe timeout check - max 300 polls (600 seconds = 10 minutes)
+                        if (pollCount > maxPolls) {
+                            clearInterval(interval);
+                            console.error(`❌ Poll timeout: Exceeded ${maxPolls} polls (10 minutes)`);
+                            
+                            // Clean up event listeners
+                            processingModal.removeEventListener('click', preventBackdropClose);
+                            document.removeEventListener('keydown', preventEscapeClose);
+                            
+                            showErrorState('انتهت مهلة الانتظار (10 دقائق) - المعالجة استغرقت وقتاً طويلاً');
+                            return;
+                        }
+                        
+                        console.log(`💫 Poll #${pollCount}: Checking mission ${missionId}...`);
+                        
+                        // Fetch mission status
+                        const statusResponse = await fetch(`${API_URL}/mission/${missionId}`, {
+                            timeout: 5000
+                        });
+                        
+                        if (!statusResponse.ok) {
+                            console.warn(`⚠️ Poll #${pollCount}: HTTP ${statusResponse.status} - will retry`);
+                            return; // Skip this poll and continue
+                        }
+                        
+                        const responseData = await statusResponse.json();
+                        const missionData = responseData.mission;
+                        
+                        if (!missionData) {
+                            console.warn(`⚠️ Poll #${pollCount}: Invalid response structure - missing 'mission' field`);
+                            return; // Skip this poll
+                        }
+                        
+                        const { status, processed_images, total_images } = missionData;
+                        console.log(`💫 Poll #${pollCount}: status=${status}, processed=${processed_images}/${total_images}`);
+                        
+                        // Update progress text with current numbers
+                        const progressText = document.getElementById('progressText');
+                        if (progressText) {
+                            progressText.textContent = `$ ${processed_images}/${total_images} images processed...`;
+                        }
+                        
+                        // ✅ Consider complete when all images have been processed
+                        // Status stays 'processing' for specialist review, so check image count instead
+                        const isDone = (
+                            status === 'completed' || 
+                            (total_images > 0 && processed_images >= total_images)
+                        );
+                        
+                        if (isDone) {
+                            console.log(`✓ Processing complete! Status: ${status}, Images: ${processed_images}/${total_images}`);
+                            clearInterval(interval);
+                            
+                            // Enforce minimum display time (3 seconds) - feel natural, not jarring
+                            const elapsed = Date.now() - startTime;
+                            const delay = Math.max(0, minDisplayTime - elapsed);
+                            
+                            console.log(`⏱️  Waiting ${delay}ms before closing modal (min display time)`);
+                            
+                            setTimeout(() => {
+                                // Clean up event listeners
+                                processingModal.removeEventListener('click', preventBackdropClose);
+                                document.removeEventListener('keydown', preventEscapeClose);
+                                
+                                // Hide processing modal
+                                processingModal.style.display = 'none';
+                                
+                                // Show success modal
+                                document.getElementById('successModal').style.display = 'flex';
+                                
+                                // Reset form
+                                document.getElementById('uploadForm').reset();
+                                selectedFiles = [];
+                                updateFileList();
+                                const today = new Date().toLocaleDateString('en-CA');
+                                missionDate.value = today;
+                                validateForm();
+                                
+                                // Reset submit button
+                                const submitBtn = document.getElementById('submitBtn');
+                                submitBtn.disabled = false;
+                                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال المهمة';
+                                
+                                console.log('✓ Loading updated missions...');
+                                // Reload missions to show the new mission
+                                loadMissions();
+                                
+                                resolve();
+                            }, delay);
+                            
+                            return; // Stop polling immediately, but delay UI update
+                        }
+                        
+                    } catch (pollError) {
+                        console.error(`❌ Poll #${pollCount} exception: ${pollError.message}`);
+                        // Log the full error for debugging
+                        console.error(`   Details:`, pollError);
+                        // Don't stop polling - continue trying (network errors are transient)
+                    }
+                }, pollIntervalTime);
+            });
+        }
+        
+        // Close processing modal function (ONLY on error)
+        function closeProcessingModal() {
+            console.log('🔴 Closing processing modal due to error');
+            const processingModal = document.getElementById('processingModal');
+            processingModal.style.display = 'none';
+            
+            // Re-enable submit button and restore it
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال المهمة';
+        }
+        
+        // Close success modal
+        function closeSuccessModal() {
+            console.log('📭 Closing success modal');
+            document.getElementById('successModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

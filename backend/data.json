@@ -1,0 +1,1271 @@
+{
+  "invasive_plants": [
+    {
+      "scientific_name": "Alternanthera pungens Kunth",
+      "family": "Amaranthaceae",
+      "type": "عشب زاحف",
+      "danger_level": "Medium",
+      "visual_features": "عشب زاحف بسيقان متفرعة، أوراق بيضاوية متقابلة، أزهار صغيرة بيضاء محمولة في نورات كروية شائكة عند اللمس.",
+      "description": "عشب غازي سريع الانتشار، يشكل سجاداً كثيفاً يخنق النباتات المحلية. يفضل الأراضي الرملية والمضطربة."
+    },
+    {
+      "scientific_name": "Amaranthus albus L.",
+      "family": "Amaranthaceae",
+      "type": "عشب حولي",
+      "danger_level": "Medium",
+      "visual_features": "نبات قائم أو مفترش، لونه أخضر باهت إلى أبيض مائل للخضرة، أوراق بيضاوية صغيرة، نورات زهرية كثيفة في آباط الأوراق.",
+      "description": "ينافس المحاصيل الصيفية، مضيف وسيط للآفات والحشرات. ينتج كميات هائلة من البذور."
+    },
+    {
+      "scientific_name": "Amaranthus hybridus L.",
+      "family": "Amaranthaceae",
+      "type": "عشب حولي",
+      "danger_level": "High",
+      "visual_features": "نبات قائم يصل ارتفاعه لمترين، أوراق عريضة بيضاوية أو معينية، نورات زهرية خضراء أو حمراء طويلة ورفيعة.",
+      "description": "أحد أهم الأعشاب الضارة في المحاصيل الزراعية على مستوى العالم، يقلل الإنتاجية بشدة وينافس على الماء والمغذيات."
+    },
+    {
+      "scientific_name": "Amaranthus spinosus L.",
+      "family": "Amaranthaceae",
+      "type": "عشب حولي",
+      "danger_level": "High",
+      "visual_features": "سيقان وأغصان تحمل أزواجاً من الأشواك الحادة عند قاعدة كل ورقة، أوراق بيضاوية، نورات زهرية شوكية خضراء أو حمراء.",
+      "description": "عشب شائك يصعب السيطرة عليه يدوياً، يشكل خطراً على العمال والحيوانات. غازي قوي للمزارع والحدائق."
+    },
+    {
+      "scientific_name": "Argemone mexicana L.",
+      "family": "Papaveraceae",
+      "type": "عشب حولي",
+      "danger_level": "Medium",
+      "visual_features": "أوراق مفصصة شائكة ذات عروق بيضاء، أزهار صفراء ليمونية زاهية، ثمار كبسولية شائكة، تفرز عصارة صفراء سامة عند كسرها.",
+      "description": "نبات سام يلوث محاصيل الحبوب والبذور الزيتية. ينتشر في الأراضي البور وعلى جوانب الطرق."
+    },
+    {
+      "scientific_name": "Argemone ochroleuca Sweet",
+      "family": "Papaveraceae",
+      "type": "عشب حولي",
+      "danger_level": "Medium",
+      "visual_features": "أوراق مفصصة شائكة ذات عروق بيضاء واضحة، أزهار صفراء باهتة (ليمونية)، تفرز عصارة صفراء عند كسر الساق.",
+      "description": "عشب سام ينتشر في المزارع والمناطق المتروكة، بذوره تلوث المحاصيل الزراعية وتسبب تسمم للدواجن والمواشي."
+    },
+    {
+      "scientific_name": "Austrocylindropuntia subulata (Muehlenpf.) Backeb.",
+      "family": "Cactaceae",
+      "type": "صبار",
+      "danger_level": "High",
+      "visual_features": "سيقان أسطوانية طويلة تشبه الأصابع، تحمل أوراقاً حمراء طويلة مدببة دائمة، وأشواكاً صفراء طويلة. يشكل شجيرات كثيفة.",
+      "description": "صبار غازي سريع الانتشار يشكل غابات كثيفة غير سالكة. قطعاته تتجذر بسهولة وتنشر النبات."
+    },
+    {
+      "scientific_name": "Bidens aurea (Aiton) Sherff",
+      "family": "Asteraceae",
+      "type": "عشب معمر",
+      "danger_level": "Medium",
+      "visual_features": "نبات قائم، أزهار صفراء كبيرة تشبه الأقحوان، أوراق مركبة ريشية، ثمار (بذور) لها خطافات تلتصق بالملابس والفراء.",
+      "description": "ينتشر في المناطق الرطبة ومجاري المياه. بذوره الملتصقة تسهل انتشاره لمسافات طويلة بواسطة الحيوانات والبشر."
+    },
+    {
+      "scientific_name": "Cenchrus echinatus L.",
+      "family": "Poaceae",
+      "type": "عشب حولي",
+      "danger_level": "High",
+      "visual_features": "عشب متكتل، سنابل زهرية شائكة مؤذية (حسك)، أوراق رفيعة ذات حواف خشنة.",
+      "description": "من الأعشاب الضارة الخطيرة في المناطق الاستوائية وشبه الاستوائية. أشواكه تلحق الضرر بحيوانات الرعي وتقلل من جودة الأعلاف."
+    },
+    {
+      "scientific_name": "Cenchrus gracillimus Nash",
+      "family": "Poaceae",
+      "type": "عشب معمر",
+      "danger_level": "Medium",
+      "visual_features": "عشب نجيل معمر، سيقان زاحفة وتقية، أوراق خطية رفيعة، سنابل رفيعة وحادة.",
+      "description": "يغزو المراعي والمناطق المضطربة، ينافس الأعشاب الرعوية المحلية ويقلل من قيمتها الغذائية."
+    },
+    {
+      "scientific_name": "Cirsium vulgare (Savi) Tenore",
+      "family": "Asteraceae",
+      "type": "عشب ثنائي الحول",
+      "danger_level": "Medium",
+      "visual_features": "سيقان وأوراق شائكة بشدة، أوراق مفصصة عميقة، أزهار أرجوانية إلى وردية محمولة في رؤوس شوكية.",
+      "description": "ينتشر في المراعي والمناطق المهملة. أشواكه تجعله غير مرغوب للرعي ويخفض قيمة الأرض."
+    },
+    {
+      "scientific_name": "Cuscuta campestris Yunck.",
+      "family": "Cuscutaceae",
+      "type": "نبات طفيلي",
+      "danger_level": "Critical",
+      "visual_features": "سيقان خيطية صفراء أو برتقالية تشبه السباغيتي، بدون أوراق خضراء، تلتف حول العائل، أزهار بيضاء صغيرة كروية.",
+      "description": "طفيلي كامل يلف ويمتص عصارة مجموعة واسعة من النباتات المضيفة (محاصيل، خضروات، أعشاب)، ويمكن أن يدمر محاصيل كاملة."
+    },
+    {
+      "scientific_name": "Cylindropuntia rosea (DC.) Backeb.",
+      "family": "Cactaceae",
+      "type": "صبار",
+      "danger_level": "High",
+      "visual_features": "سيقان أسطوانية مفصصة، مغطاة بأشواك طويلة حادة وردية اللون عند القاعدة، أزهار وردية أو أرجوانية.",
+      "description": "صبار غازي يشكل مجموعات كثيفة وشائكة. يشكل خطراً على المراعي وحركة الحيوانات البرية والماشية."
+    },
+    {
+      "scientific_name": "Datura ferox L.",
+      "family": "Solanaceae",
+      "type": "عشب حولي",
+      "danger_level": "High",
+      "visual_features": "أوراق عريضة مسننة، أزهار بيضاء بوقية الشكل قصيرة وواسعة، ثمار كبيرة شوكية جداً تحتوي على بذور سوداء.",
+      "description": "نبات سام للغاية لجميع الفقاريات. يغزو المحاصيل وخاصة الذرة والخضروات. يمثل خطراً شديداً إذا دخل في علف الحيوانات."
+    },
+    {
+      "scientific_name": "Datura innoxia Mill.",
+      "family": "Solanaceae",
+      "type": "عشب حولي",
+      "danger_level": "High",
+      "visual_features": "أوراق رمادية خضراء بيضاوية، أزهار بيضاء بوقية كبيرة وعطرة، ثمار كروية شوكية.",
+      "description": "نبات سام غازي للأراضي الزراعية والمضطربة. جميع أجزائه تحتوي على قلويدات سامة قوية."
+    },
+    {
+      "scientific_name": "Datura metel L.",
+      "family": "Solanaceae",
+      "type": "عشب حولي",
+      "danger_level": "High",
+      "visual_features": "أزهار كبيرة مبهرجة تكون غالباً مزدوجة، بألوان الأرجواني أو الأبيض أو الأصفر، ثمار شوكية.",
+      "description": "نبات سام ومهلوس. ينتشر كنبات زينة هارب ويغزو المناطق الرطبة والحدائق. خطر التسمم للإنسان والحيوان."
+    },
+    {
+      "scientific_name": "Datura stramonium L.",
+      "family": "Solanaceae",
+      "type": "عشب حولي",
+      "danger_level": "High",
+      "visual_features": "أوراق خضراء داكنة مفصصة مسننة بشدة، أزهار بيضاء بوقية طويلة، ثمار بيضاوية شوكية تنفتح إلى أربعة أقسام.",
+      "description": "واحد من أكثر النباتات السامة شهرة. يغزو المحاصيل والحقول المهملة. التسمم به خطير وقد يكون قاتلاً."
+    },
+    {
+      "scientific_name": "Dysphania ambrosioides (L.) Mosyakin & Clemants",
+      "family": "Amaranthaceae",
+      "type": "عشب حولي",
+      "danger_level": "Medium",
+      "visual_features": "نبات عطري قوي الرائحة، أوراق خضراء مصفرة مسننة، أزهار صغيرة خضراء في نورات عنقودية طويلة في قمة الساق.",
+      "description": "ينتشر في المناطق المضطربة وحول المساكن. يمكن أن يكون ساماً للماشية إذا أكلت بكميات كبيرة. يستخدم في الطب التقليدي ولكن بجرعات دقيقة."
+    },
+    {
+      "scientific_name": "Erigeron bonariensis L.",
+      "family": "Asteraceae",
+      "type": "عشب حولي",
+      "danger_level": "Medium",
+      "visual_features": "سيقان مغطاة بشعيرات خشنة، أوراق خطية إلى رفيعة، أزهار صغيرة بيضاء أو وردية باهتة محمولة في رؤوس كثيرة.",
+      "description": "عشب شائع في المناطق الحضرية والمضطربة. ينتج كمية هائلة من البذور الخفيفة التي تنتقل بسهولة بالرياح."
+    },
+    {
+      "scientific_name": "Erigeron canadensis L.",
+      "family": "Asteraceae",
+      "type": "عشب حولي",
+      "danger_level": "Medium",
+      "visual_features": "سيقان قائمة مغطاة بشعيرات، أوراق خطية رفيعة، أزهار صغيرة بيضاء محمولة في رؤوس صغيرة عديدة.",
+      "description": "عشب رائد في المناطق المضطربة. يمكن أن يسبب حساسية. ينافس الشتلات الصغيرة للنباتات المحلية."
+    },
+    {
+      "scientific_name": "Euphorbia cyathophora Murray",
+      "family": "Euphorbiaceae",
+      "type": "عشب حولي",
+      "danger_level": "Medium",
+      "visual_features": "أوراق علوية حمراء زاهية عند القاعدة (تشبه الزهرة)، عصارة حليبية بيضاء سامة، أزهار صغيرة خضراء محاطة بالسيبلات الملونة.",
+      "description": "نبات زينة هارب. العصارة الحليبية تسبب تهيجاً شديداً للجلد والعيون. يمكن أن يكون ساماً إذا ابتلع."
+    },
+    {
+      "scientific_name": "Euphorbia heterophylla L.",
+      "family": "Euphorbiaceae",
+      "type": "عشب حولي",
+      "danger_level": "High",
+      "visual_features": "أوراق متغيرة الشكل (خطية إلى بيضاوية)، الأوراق العلوية غالباً ما تكون ملونة باللون الأحمر أو الأبيض عند القاعدة، عصارة حليبية.",
+      "description": "آفة خطيرة في محاصيل القطن وفول الصويا والذرة في المناطق الدافئة. عصارته سامة للماشية."
+    },
+    {
+      "scientific_name": "Euphorbia hirta L.",
+      "family": "Euphorbiaceae",
+      "type": "عشب حولي",
+      "danger_level": "Low",
+      "visual_features": "عشب زاحف أو قائم بسيقان حمراء مغطاة بشعيرات، أوراق بيضاوية متقابلة غالباً ببقعة حمراء في الوسط، عصارة حليبية.",
+      "description": "ينتشر في الممرات والحدائق والأراضي المضطربة. يستخدم في الطب التقليدي ولكن العصارة قد تسبب تهيجاً."
+    },
+    {
+      "scientific_name": "Euphorbia maculata L.",
+      "family": "Euphorbiaceae",
+      "type": "عشب زاحف",
+      "danger_level": "Low",
+      "visual_features": "سيقان زاحفة حمراء، أوراق صغيرة مستطيلة غالباً ببقعة حمراء أو أرجوانية في الوسط، عصارة حليبية.",
+      "description": "يشكل سجاداً أرضياً في الحدائق والممرات. ينافس النباتات المزروعة ويمكن أن يكون صعب الإزالة بسبب نموه الزاحف."
+    },
+    {
+      "scientific_name": "Euphorbia prostrata Aiton",
+      "family": "Euphorbiaceae",
+      "type": "عشب زاحف",
+      "danger_level": "Low",
+      "visual_features": "سيقان زاحفة رفيعة محمرّة تنتشر بشكل دائري، أوراق صغيرة بيضاوية متقابلة، عصارة حليبية.",
+      "description": "عشب ضار في المشاتل والحدائق وأرصفة الطرق. ينمو بسرعة ويغطي المساحات المفتوحة."
+    },
+    {
+      "scientific_name": "Euphorbia tirucalli L.",
+      "family": "Euphorbiaceae",
+      "type": "شجيرة / شجرة صغيرة",
+      "danger_level": "High",
+      "visual_features": "سيقان خضراء ناعمة أسطوانية تشبه الأقلام، عديمة الأوراق تقريباً، عصارة حليبية بيضاء سامة ولساعة جداً.",
+      "description": "نبات سام للغاية. العصارة تسبب عمى مؤقت أو دائم إذا دخلت العين، وتهيج جلدي شديد. تزرع كسياج أحياناً ولكنها خطيرة."
+    },
+    {
+      "scientific_name": "Flaveria trinervia (Spreng.) Mohr.",
+      "family": "Asteraceae",
+      "type": "عشب حولي",
+      "danger_level": "Medium",
+      "visual_features": "نبات قائم، أوراق خطية إلى رمحية ذات ثلاث عروق بارزة، أزهار صفراء صغيرة محمولة في رؤوس كثيفة عند قمم الأغصان.",
+      "description": "ينتشر في المناطق الرطبة وحول حقول الأرز وقنوات الري. ينافس المحاصيل على الماء والمغذيات."
+    },
+    {
+      "scientific_name": "Galinsoga parviflora Cav.",
+      "family": "Asteraceae",
+      "type": "عشب حولي",
+      "danger_level": "Medium",
+      "visual_features": "عشب صغير قائم، أوراق بيضاوية متقابلة، أزهار صغيرة بيضاء مع مركز أصفر، تتكون من 5 بتلات بيضاء صغيرة (شريطية).",
+      "description": "آفة حدائقية سريعة النمو والدورة. تنتج بذوراً بغزارة وتغزو الأرض المقلوبة حديثاً."
+    },
+    {
+      "scientific_name": "Ipomoea cairica (L.) Sweet",
+      "family": "Convolvulaceae",
+      "type": "متسلق معمر",
+      "danger_level": "High",
+      "visual_features": "نبات متسلق زاحف، أوراق راحية مقسمة إلى 5-7 فصوص تشبه الأصابع، أزهار بوقية كبيرة لونها أرجواني وردي مع مركز أغمق.",
+      "description": "متسلق غازي سريع النمو يغطي ويدمر النباتات والأشجار والشجيرات الأخرى بسرعة، خنقها ومنع وصول الضوء لها."
+    },
+    {
+      "scientific_name": "Ipomoea carnea ssp. fistulosa (Mart. ex Choisy) D.F.Austin",
+      "family": "Convolvulaceae",
+      "type": "شجيرة",
+      "danger_level": "High",
+      "visual_features": "أزهار بوقية الشكل لونها وردي فاتح، أوراق قلبية الشكل، سيقان مجوفة، تنمو بكثافة قرب المياه.",
+      "description": "تغزو القنوات المائية والمصارف وضفاف الأودية، وتعيق جريان المياه وتسبب تراكم الرسوبيات."
+    },
+    {
+      "scientific_name": "Lantana camara L.",
+      "family": "Verbenaceae",
+      "type": "شجيرة",
+      "danger_level": "High",
+      "visual_features": "أزهار صغيرة متجمعة بألوان متعددة (أصفر، برتقالي، أحمر) في نفس النورة، أوراق خشنة لها رائحة قوية ومميزة، ثمار سوداء صغيرة تشبه التوت.",
+      "description": "شجيرة زينة هربت من الحدائق لتغزو المناطق الرطبة والجبلية. تشكل غابات كثيفة تمنع نمو الغطاء النباتي. سامة للماشية."
+    },
+    {
+      "scientific_name": "Leucaena leucocephala (Lam.) de Wit",
+      "family": "Fabaceae",
+      "type": "شجرة / شجيرة",
+      "danger_level": "Medium",
+      "visual_features": "شجرة صغيرة سريعة النمو، أوراق مركبة ريشية مزدوجة، أزهار كروية بيضاء، قرون ثمار مسطحة رفيعة.",
+      "description": "تزرع للعلف والوقود والسياجات لكنها تهرب وتصبح غازية. تنتشر بسرعة في المناطق المضطربة وتثبط نمو النباتات الأخرى."
+    },
+    {
+      "scientific_name": "Nicotiana glauca Graham",
+      "family": "Solanaceae",
+      "type": "شجيرة",
+      "danger_level": "High",
+      "visual_features": "أوراق خضراء مزرقة (رمادية) ناعمة وكبيرة، أزهار صفراء أنبوبية طويلة، سيقان ملساء، تنمو بكثافة في مجاري الأودية وعلى جوانب الطرق.",
+      "description": "نبات سام جداً ومميت للإبل والمواشي. يغزو الأودية بسرعة هائلة وينافس أشجار الطلح والسمر المحلية."
+    },
+    {
+      "scientific_name": "Opuntia ficus-indica (L.) Mill.",
+      "family": "Cactaceae",
+      "type": "صبار",
+      "danger_level": "Medium",
+      "visual_features": "سيقان مفصلية مسطحة (ألواح) سميكة، قد تحتوي على أشواك، أزهار صفراء أو برتقالية كبيرة، ثمار بيضاوية حمراء أو خضراء.",
+      "description": "يشكل مستعمرات كثيفة تمنع حركة الحيوانات وتغطي مساحات واسعة في المناطق الجبلية (الطائف، عسير، الباحة)."
+    },
+    {
+      "scientific_name": "Parthenium hysterophorus L.",
+      "family": "Asteraceae",
+      "type": "عشب حولي",
+      "danger_level": "Critical",
+      "visual_features": "نبات عشبي قائم، أوراق مفصصة تشبه الجزر، أزهار بيضاء صغيرة جداً متجمعة في رؤوس، سيقان مضلعة.",
+      "description": "نبات خطير جداً على الصحة (يسبب حساسية وتلف للجهاز التنفسي)، يغزو المزارع ويقلل الإنتاجية الزراعية بشكل مدمر."
+    },
+    {
+      "scientific_name": "Prosopis juliflora (Sw.) DC.",
+      "family": "Fabaceae",
+      "type": "شجرة / شجيرة",
+      "danger_level": "Critical",
+      "visual_features": "أشواك بيضاء مزدوجة وحادة جداً، أوراق مركبة ريشية خضراء زاهية، أزهار صفراء طويلة (هريمة)، قرون ثمار صفراء طويلة ومنحنية قليلاً.",
+      "description": "العدو البيئي الأول. تستهلك كميات هائلة من المياه الجوفية، تفرز مواد تقتل النباتات المحلية حولها، وجذورها تدمر البنية التحتية."
+    },
+    {
+      "scientific_name": "Solanum elaeagnifolium Cav.",
+      "family": "Solanaceae",
+      "type": "شجيرة معمرة",
+      "danger_level": "High",
+      "visual_features": "سيقان وأوراق مغطاة بشعيرات نجمية فضية تعطي مظهراً أشيب، أزهار بنفسجية زاهية بتلات منحنية للخلف، ثمار صفراء كروية.",
+      "description": "أحد أكثر الأعشاب المعمرة ضراوة. جذوره عميقة وتنتشر بشكل جانبي. ينافس المحاصيل بشدة ويصعب السيطرة عليه."
+    },
+    {
+      "scientific_name": "Trianthema portulacastrum L.",
+      "family": "Aizoaceae",
+      "type": "عشب زاحف حولي",
+      "danger_level": "High",
+      "visual_features": "سيقان زاحفة حمراء، أوراق لحمية صغيرة بيضاوية متقابلة، أزهار صغيرة وردية أو بيضاء تنفتح في الصباح.",
+      "description": "آفة رئيسية في المحاصيل الصيفية، خاصة القطن والخضروات. يشكل غطاءاً أرضياً كثيفاً ينافس على الماء والمغذيات."
+    },
+    {
+      "scientific_name": "Verbesina encelioides (Cav.) Benth. & Hook.f. ex A.Gray",
+      "family": "Asteraceae",
+      "type": "عشب حولي",
+      "danger_level": "Medium",
+      "visual_features": "نبات قائم يشبه عباد الشمس لكنه أصغر، أوراق مثلثة الشمس خشنة الملمس، أزهار صفراء زاهية كبيرة ذات مركز أصفر بارز.",
+      "description": "ينتشر في المناطق الجافة وشبه الجافة. يمكن أن يكون ساماً للماشية ويسبب متلازمة تسمى \"الرجفان\"."
+    },
+    {
+      "scientific_name": "Xanthium spinosum L.",
+      "family": "Asteraceae",
+      "type": "عشب حولي",
+      "danger_level": "Medium",
+      "visual_features": "سيقان تحمل أشواكاً صفراء طويلة ثلاثية الشعب عند قاعدة كل ورقة، أوراق خضراء داكنة لامعة من الأعلى، ثمار شائكة (حسك) بنية.",
+      "description": "عشب شائك سام. يلوث صوف الأغنام ويضر بجودتها. البذور سامة إذا أكلتها الحيوانات أو اختلطت مع العلف."
+    }
+  ],
+  "native_saudi_plants": [
+    {
+      "scientific_name": "Acacia tortilis",
+      "arabic_name": "الطلح / السمر",
+      "family": "Fabaceae",
+      "type": "شجرة",
+      "habitat": "المناطق الصحراوية والوديان",
+      "key_features": "شجرة شوكية ذات تاج مظلي مميز، أزهار كروية صفراء عطرية، قرون ملتوية حلزونياً",
+      "ecological_role": "تثبيت الكثبان الرملية، مصدر للعلف والظل، موئل للطيور والحشرات"
+    },
+    {
+      "scientific_name": "Acacia ehrenbergiana",
+      "arabic_name": "السلام",
+      "family": "Fabaceae",
+      "type": "شجرة صغيرة",
+      "habitat": "المناطق الصخرية والحماد",
+      "key_features": "أشواك طويلة بيضاء، أوراق مركبة ريشية صغيرة، قرون مستقيمة بنية",
+      "ecological_role": "رعوي ممتاز، مقاوم للجفاف"
+    },
+    {
+      "scientific_name": "Acacia gerrardii",
+      "arabic_name": "القرظ",
+      "family": "Fabaceae",
+      "type": "شجرة",
+      "habitat": "مرتفعات الحجاز وعسير",
+      "key_features": "لحاء أسود متشقق، أشواك حادة، أزهار بيضاء كروية",
+      "ecological_role": "مصدر للصمغ العربي، رعوي"
+    },
+    {
+      "scientific_name": "Ziziphus spina-christi",
+      "arabic_name": "السدر / النبق",
+      "family": "Rhamnaceae",
+      "type": "شجرة",
+      "habitat": "الوديان والمناطق الرطبة",
+      "key_features": "أشواك مستقيمة، أوراق بيضوية لامعة، ثمار بنية حلوة (النبق)",
+      "ecological_role": "ثمارها غذاء للطيور والحيوانات، أوراقها للشاي والطب الشعبي"
+    },
+    {
+      "scientific_name": "Ziziphus nummularia",
+      "arabic_name": "العبري",
+      "family": "Rhamnaceae",
+      "type": "شجيرة",
+      "habitat": "المناطق الرملية",
+      "key_features": "أوراق دائرية صغيرة، أشواك معقوفة، ثمار حمراء صغيرة",
+      "ecological_role": "تثبيت الرمال، رعوي جيد"
+    },
+    {
+      "scientific_name": "Prosopis cineraria",
+      "arabic_name": "الغاف",
+      "family": "Fabaceae",
+      "type": "شجرة",
+      "habitat": "المناطق الرملية والسهول",
+      "key_features": "أوراق ريشية مزدوجة رمادية، قرون بنية رفيعة، أشواك صغيرة",
+      "ecological_role": "ظل وعلف، تثبيت التربة، شجرة مقدسة"
+    },
+    {
+      "scientific_name": "Rhazya stricta",
+      "arabic_name": "الحَرْم",
+      "family": "Apocynaceae",
+      "type": "شجيرة",
+      "habitat": "الوديان والمستنقعات المالحة",
+      "key_features": "أوراق لامعة خضراء داكنة، أزهار بيضاء صغيرة، ثمار جرابية طويلة",
+      "ecological_role": "نبات طبي تقليدي، رعوي بحذر (سام)"
+    },
+    {
+      "scientific_name": "Calotropis procera",
+      "arabic_name": "العُشَر",
+      "family": "Apocynaceae",
+      "type": "شجيرة",
+      "habitat": "المناطق المضطربة والوديان",
+      "key_features": "أوراق كبيرة لحمية، أزهار بنفسجية وبيضاء، ثمار منفوخة، عصارة حليبية",
+      "ecological_role": "نبات طبي، يوفر أليافاً للحبال"
+    },
+    {
+      "scientific_name": "Lycium shawii",
+      "arabic_name": "العَوْسَج",
+      "family": "Solanaceae",
+      "type": "شجيرة شائكة",
+      "habitat": "الوديان والمناطق الرملية",
+      "key_features": "أوراق صغيرة لحمية، أزهار بنفسجية صغيرة، ثمار حمراء كروية",
+      "ecological_role": "تثبيت التربة، ثماره غذاء للطيور"
+    },
+    {
+      "scientific_name": "Panicum turgidum",
+      "arabic_name": "الثَمَام",
+      "family": "Poaceae",
+      "type": "عشب معمر",
+      "habitat": "الكثبان الرملية",
+      "key_features": "سيقان خشبية قائمة، أوراق طويلة صلبة، نورات مفتوحة",
+      "ecological_role": "تثبيت الرمال، علف ممتاز"
+    },
+    {
+      "scientific_name": "Haloxylon persicum",
+      "arabic_name": "الرَمْث",
+      "family": "Amaranthaceae",
+      "type": "شجيرة",
+      "habitat": "الربع الخالي والمناطق الرملية",
+      "key_features": "سيقان خضراء زاهية، أوراق حرشفية صغيرة، أزهار صغيرة غير واضحة",
+      "ecological_role": "تثبيت الكثبان الرملية، ععلف جيد للإبل"
+    },
+    {
+      "scientific_name": "Haloxylon salicornicum",
+      "arabic_name": "العَبِد",
+      "family": "Amaranthaceae",
+      "type": "شجيرة",
+      "habitat": "المناطق المالحة",
+      "key_features": "سيقان مفصلية خضراء، أوراق مختزلة، أزهار صفراء صغيرة",
+      "ecological_role": "مقاوم للملوحة، رعوي"
+    },
+    {
+      "scientific_name": "Anabasis setifera",
+      "arabic_name": "الثُعْد",
+      "family": "Amaranthaceae",
+      "type": "شجيرة قزمية",
+      "habitat": "السهول الحصوية",
+      "key_features": "سيقان خشبية متفرعة، أوراق شوكية صغيرة، نمو بطيء",
+      "ecological_role": "رعوي، مقاوم للرعي الجائر"
+    },
+    {
+      "scientific_name": "Salsola imbricata",
+      "arabic_name": "الحُمَض",
+      "family": "Amaranthaceae",
+      "type": "شجيرة",
+      "habitat": "المناطق الساحلية المالحة",
+      "key_features": "أوراق لحمية أسطوانية، لونها أخضر مائل للزرقة، أزهار صغيرة",
+      "ecological_role": "مقاوم للملوحة، رعوي"
+    },
+    {
+      "scientific_name": "Suaeda monoica",
+      "arabic_name": "الشَنَان",
+      "family": "Amaranthaceae",
+      "type": "شجيرة",
+      "habitat": "السباخ والمناطق المالحة",
+      "key_features": "أوراق لحمية أسطوانية خضراء، أزهار خضراء صغيرة",
+      "ecological_role": "تثبيت التربة المالحة، رعوي"
+    },
+    {
+      "scientific_name": "Pulicaria undulata",
+      "arabic_name": "الرَبْلَة",
+      "family": "Asteraceae",
+      "type": "عشب معمر",
+      "habitat": "الوديان والسهول",
+      "key_features": "أوراق رمادية متموجة الحواف، أزهار صفراء ذهبية، رائحة عطرية",
+      "ecological_role": "نبات طبي، رعوي"
+    },
+    {
+      "scientific_name": "Artemisia sieberi",
+      "arabic_name": "الشِيح",
+      "family": "Asteraceae",
+      "type": "شجيرة قزمية",
+      "habitat": "السهول الحصوية",
+      "key_features": "أوراق رمادية مغطاة بشعيرات، رائحة عطرية قوية، أزهار صفراء صغيرة",
+      "ecological_role": "نبات طبي، طارد للحشرات"
+    },
+    {
+      "scientific_name": "Achillea fragrantissima",
+      "arabic_name": "القَيْصُوم",
+      "family": "Asteraceae",
+      "type": "عشب معمر",
+      "habitat": "مرتفعات الحجاز وعسير",
+      "key_features": "أوراق ريشية عطرة، أزهار بيضاء في نورات مركبة",
+      "ecological_role": "نبات طبي مهم"
+    },
+    {
+      "scientific_name": "Lavandula dentata",
+      "arabic_name": "الخُزَامَى",
+      "family": "Lamiaceae",
+      "type": "شجيرة",
+      "habitat": "مرتفعات جنوب غرب السعودية",
+      "key_features": "أوراق مسننة رمادية، أزهار بنفسجية في سنابل، رائحة عطرية قوية",
+      "ecological_role": "نبات عطري وطبي، جاذب للنحل"
+    },
+    {
+      "scientific_name": "Ochradenus baccatus",
+      "arabic_name": "الرِفْل",
+      "family": "Resedaceae",
+      "type": "شجيرة",
+      "habitat": "الوديان والمناطق الصخرية",
+      "key_features": "أوراق خضراء زاهية لامعة، أزهار صفراء، ثمار بيضاء لبية",
+      "ecological_role": "ثماره غذاء للطيور والزواحف"
+    },
+    {
+      "scientific_name": "Salvadora persica",
+      "arabic_name": "الأرَاك",
+      "family": "Salvadoraceae",
+      "type": "شجرة صغيرة",
+      "habitat": "الوديان والمناطق الرطبة",
+      "key_features": "أوراق خضراء لامعة، ثمار حمراء صغيرة، جذورها تستخدم للسواك",
+      "ecological_role": "مصدر للسواك، ثماره غذاء للطيور"
+    },
+    {
+      "scientific_name": "Moringa peregrina",
+      "arabic_name": "البَان",
+      "family": "Moringaceae",
+      "type": "شجرة",
+      "habitat": "الوديان الجبلية في الحجاز",
+      "key_features": "أوراق مركبة ريشية، أزهار بيضاء وردية، ثمار طويلة مثلثة",
+      "ecological_role": "نبات طبي، زيت البان عالي الجودة"
+    },
+    {
+      "scientific_name": "Maerua crassifolia",
+      "arabic_name": "السَّلَع",
+      "family": "Capparaceae",
+      "type": "شجرة",
+      "habitat": "المناطق الصخرية والحماد",
+      "key_features": "أوراق لامعة سميكة، أزهار بيضاء عطرة، ثمار كروية خضراء",
+      "ecological_role": "ظل في المناطق الحارة، رعوي"
+    },
+    {
+      "scientific_name": "Capparis spinosa",
+      "arabic_name": "الْكَبَّار / الشِّفَلَّح",
+      "family": "Capparaceae",
+      "type": "شجيرة متسلقة",
+      "habitat": "المناطق الصخرية والجدران",
+      "key_features": "أوراق دائرية لامعة، أزهار بيضاء كبيرة، براعم الزهور (قَبّار) تؤكل",
+      "ecological_role": "نبات غذائي وطبي"
+    },
+    {
+      "scientific_name": "Fagonia indica",
+      "arabic_name": "الشَرِي",
+      "family": "Zygophyllaceae",
+      "type": "شجيرة قزمية",
+      "habitat": "السهول الحصوية",
+      "key_features": "أوراق ثلاثية الوريقات، أزهار بنفسجية صغيرة، ثمار شوكية",
+      "ecological_role": "نبات طبي تقليدي"
+    },
+    {
+      "scientific_name": "Tribulus terrestris",
+      "arabic_name": "الْحَسَك",
+      "family": "Zygophyllaceae",
+      "type": "عشب زاحف حولي",
+      "habitat": "المناطق المضطربة والطرقات",
+      "key_features": "أوراق مركبة، أزهار صفراء صغيرة، ثمار شوكية صلبة ذات 5 أقسام",
+      "ecological_role": "نبات طبي، لكن ثماره تضر الحيوانات"
+    },
+    {
+      "scientific_name": "Pergularia tomentosa",
+      "arabic_name": "الْعُلَيْق",
+      "family": "Apocynaceae",
+      "type": "متسلق معمر",
+      "habitat": "الوديان والمناطق الرطبة",
+      "key_features": "أوراق قلبية سميكة، أزهار صفراء مخضرة، ثمار جرابية مليئة بالشعر الحريري",
+      "ecological_role": "نبات طبي تقليدي"
+    },
+    {
+      "scientific_name": "Citrullus colocynthis",
+      "arabic_name": "الْحَنْظَل",
+      "family": "Cucurbitaceae",
+      "type": "عشب زاحف معمر",
+      "habitat": "الوديان والمناطق الرملية",
+      "key_features": "أوراق مفصصة خشنة، أزهار صفراء، ثمار كروية خضراء مخططة تصفر عند النضج (سامة)",
+      "ecological_role": "نبات طبي قوي (بحذر شديد)"
+    },
+    {
+      "scientific_name": "Cocculus pendulus",
+      "arabic_name": "الْقُرَاذ",
+      "family": "Menispermaceae",
+      "type": "متسلق معمر",
+      "habitat": "الوديان الجبلية",
+      "key_features": "أوراق قلبية لامعة، أزهار صفراء صغيرة، ثمار حمراء صغيرة",
+      "ecological_role": "نبات طبي، ثماره غذاء للطيور"
+    },
+    {
+      "scientific_name": "Cymbopogon commutatus",
+      "arabic_name": "السَّخْبَر",
+      "family": "Poaceae",
+      "type": "عشب معمر",
+      "habitat": "الوديان والمناطق الرطبة",
+      "key_features": "نبات عشبي كثيف، أوراق طويلة عطرة (رائحة الليمون)، نورات ريشية",
+      "ecological_role": "نبات عطري وطبي، رعوي"
+    },
+    {
+      "scientific_name": "Cynodon dactylon",
+      "arabic_name": "النَّجِيل",
+      "family": "Poaceae",
+      "type": "عشب معمر زاحف",
+      "habitat": "المناطق الرطبة والوديان",
+      "key_features": "سيقان زاحفة وجذور رئدية، أوراق خطية رفيعة، نورات إصبعية",
+      "ecological_role": "تثبيت التربة، ععلف جيد"
+    },
+    {
+      "scientific_name": "Phoenix dactylifera",
+      "arabic_name": "النَّخِيل",
+      "family": "Arecaceae",
+      "type": "شجرة",
+      "habitat": "الواحات والمناطق المروية",
+      "key_features": "جذع قائم مفرد، أوراق ريشية طويلة، ثمار التمر",
+      "ecological_role": "شجرة الغذاء الرئيسية، توفر ظلاً وموئلاً"
+    },
+    {
+      "scientific_name": "Tamarix aphylla",
+      "arabic_name": "الْأَثْل",
+      "family": "Tamaricaceae",
+      "type": "شجرة",
+      "habitat": "المناطق المالحة والسواحل",
+      "key_features": "أوراق حرشفية صغيرة، أزهار وردية صغيرة في نورات، لحاء رمادي",
+      "ecological_role": "مقاوم للملوحة، تثبيت التربة، مصدر للظل"
+    },
+    {
+      "scientific_name": "Nerium oleander",
+      "arabic_name": "الْدِّفْلَى",
+      "family": "Apocynaceae",
+      "type": "شجيرة",
+      "habitat": "الوديان ومجاري الأنهار الجافة",
+      "key_features": "أوراق lanceolate جلدية، أزهار وردية أو بيضاء أو حمراء، ثمار جرابية طويلة",
+      "ecological_role": "نبات زينة طبيعي، سام جداً"
+    },
+    {
+      "scientific_name": "Withania somnifera",
+      "arabic_name": "الْعَبْجَم",
+      "family": "Solanaceae",
+      "type": "شجيرة صغيرة",
+      "habitat": "المناطق المضطربة والحدائق",
+      "key_features": "أوراق بيضوية، أزهار خضراء صغيرة، ثمار برتقالية محاطة بكأس منتفخ",
+      "ecological_role": "نبات طبي مهم (الاشواغاندا)"
+    },
+    {
+      "scientific_name": "Solanum incanum",
+      "arabic_name": "الْعِنَّاب الْبَرِّي",
+      "family": "Solanaceae",
+      "type": "شجيرة شائكة",
+      "habitat": "الوديان والمناطق الرطبة",
+      "key_features": "أوراق مفصصة شوكية، أزهار بنفسجية، ثمار صفراء كروية",
+      "ecological_role": "نبات طبي تقليدي"
+    },
+    {
+      "scientific_name": "Ficus salicifolia",
+      "arabic_name": "الْلُوْز",
+      "family": "Moraceae",
+      "type": "شجرة",
+      "habitat": "الوديان الجبلية في عسير والباحة",
+      "key_features": "أوراق lanceolate تشبه أوراق الصفصاف، ثمار تين صغيرة",
+      "ecological_role": "ظل، ثماره غذاء للطيور"
+    },
+    {
+      "scientific_name": "Ficus palmata",
+      "arabic_name": "الْحَمِيط",
+      "family": "Moraceae",
+      "type": "شجرة صغيرة",
+      "habitat": "الوديان الجبلية",
+      "key_features": "أوراق كفية مفصصة، ثمار تين كبيرة تؤكل",
+      "ecological_role": "شجرة فاكهة برية"
+    },
+    {
+      "scientific_name": "Juniperus procera",
+      "arabic_name": "الْعَرْعَر",
+      "family": "Cupressaceae",
+      "type": "شجرة",
+      "habitat": "مرتفعات عسير والباحة والطائف",
+      "key_features": "أوراق إبرية، مخاريط لبية زرقاء، خشب عطري",
+      "ecological_role": "شجرة حرجية مهمة، تحافظ على المياه الجوفية"
+    },
+    {
+      "scientific_name": "Olea europaea subsp. cuspidata",
+      "arabic_name": "الزَّيْتُون الْبَرِّي",
+      "family": "Oleaceae",
+      "type": "شجرة",
+      "habitat": "مرتفعات جنوب غرب السعودية",
+      "key_features": "أوراق lanceolate خضراء داكنة من الأعلى وفضية من الأسفل، ثمار زيتون صغيرة",
+      "ecological_role": "نبات حرجي مهم، مقاوم للجفاف"
+    },
+    {
+      "scientific_name": "Dodonaea viscosa",
+      "arabic_name": "الْقِفْو",
+      "family": "Sapindaceae",
+      "type": "شجيرة",
+      "habitat": "المناطق الجبلية والوديان",
+      "key_features": "أوراق lanceolate لزجة، أزهار صفراء صغيرة، ثمار مجنحة وردية/حمراء",
+      "ecological_role": "نبات طبي، مقاوم للتعرية"
+    },
+    {
+      "scientific_name": "Euclea racemosa",
+      "arabic_name": "الْعَيْثَم",
+      "family": "Ebenaceae",
+      "type": "شجيرة",
+      "habitat": "المناطق الساحلية الجنوبية",
+      "key_features": "أوراق لامعة خضراء داكنة، أزهار بيضاء صغيرة، ثمار سوداء صغيرة",
+      "ecological_role": "نبات طبي تقليدي"
+    },
+    {
+      "scientific_name": "Caralluma spp.",
+      "arabic_name": "الْحَزَاز",
+      "family": "Apocynaceae",
+      "type": "نبات عصاري",
+      "habitat": "المناطق الصخرية والجبلية",
+      "key_features": "سيقان لحمية رباعية الزوايا، أزهار نجمية بنفسجية أو بنية، عديمة الأوراق تقريباً",
+      "ecological_role": "نبات طبي تقليدي (مثبط للشهية)"
+    },
+    {
+      "scientific_name": "Aloe spp.",
+      "arabic_name": "الصَّبَّار الْبَرِّي / الصَّبِر",
+      "family": "Asphodelaceae",
+      "type": "نبات عصاري",
+      "habitat": "المناطق الجبلية والصخرية",
+      "key_features": "أوراق لحمية شوكية الحواف في وريدات، أزهار أنبوبية حمراء أو برتقالية على ساق طويل",
+      "ecological_role": "نبات طبي وجمالي"
+    },
+    {
+      "scientific_name": "Indigofera spp.",
+      "arabic_name": "الْكُتْم",
+      "family": "Fabaceae",
+      "type": "شجيرة صغيرة",
+      "habitat": "الوديان والمناطق الرملية",
+      "key_features": "أوراق مركبة ريشية، أزهار وردية أو بنفسجية في عناقيد، قرون أسطوانية",
+      "ecological_role": "تثبيت النيتروجين في التربة، رعوي"
+    },
+    {
+      "scientific_name": "Tephrosia spp.",
+      "arabic_name": "الْغَرْب",
+      "family": "Fabaceae",
+      "type": "شجيرة صغيرة",
+      "habitat": "المناطق الرملية والصخرية",
+      "key_features": "أوراق مركبة رمادية، أزهار بنفسجية أو وردية، قرون مسطحة",
+      "ecological_role": "نبات سام يستخدم كمبيد حشري طبيعي"
+    },
+    {
+      "scientific_name": "Crotalaria spp.",
+      "arabic_name": "الْجَرْجَر",
+      "family": "Fabaceae",
+      "type": "عشب حولي أو معمر",
+      "habitat": "المناطق المضطربة",
+      "key_features": "أوراق بسيطة أو ثلاثية، أزهار صفراء في عناقيد، قرون منتفخة تسبب صوتاً عند هزها",
+      "ecological_role": "تثبيت النيتروجين، بعضها سام للماشية"
+    },
+    {
+      "scientific_name": "Senna italica",
+      "arabic_name": "السَّنَا",
+      "family": "Fabaceae",
+      "type": "شجيرة صغيرة",
+      "habitat": "الوديان والمناطق الرملية",
+      "key_features": "أوراق مركبة ريشية، أزهار صفراء زاهية، قرون مسطحة عريضة",
+      "ecological_role": "نبات طبي مهم (مسهل)"
+    },
+    {
+      "scientific_name": "Vachellia flava (Acacia flava)",
+      "arabic_name": "الْقَرَظ الأصفر",
+      "family": "Fabaceae",
+      "type": "شجرة صغيرة",
+      "habitat": "المناطق الرملية",
+      "key_features": "أشواك طويلة بيضاء، أزهار صفراء كروية عطرة، قرون ملتوية",
+      "ecological_role": "رعوي، مصدر للصمغ"
+    },
+    {
+      "scientific_name": "Vachellia nilotica (Acacia nilotica)",
+      "arabic_name": "الْقَرَظ المصري / الطَلْح",
+      "family": "Fabaceae",
+      "type": "شجرة",
+      "habitat": "الوديان والمناطق الرطبة",
+      "key_features": "أشواك بيضاء مستقيمة في أزواج، أزهار صفراء كروية، قرون مفصلية تشبه المسبحة",
+      "ecological_role": "طبي، رعوي، الصمغ العربي"
+    },
+    {
+      "scientific_name": "Balanites aegyptiaca",
+      "arabic_name": "الْهَجْلِيج",
+      "family": "Zygophyllaceae",
+      "type": "شجرة",
+      "habitat": "الوديان والمناطق الرملية",
+      "key_features": "أشواك طويلة، أوراق مركبة، ثمار بيضاوية خضراء تشبه الزيتون",
+      "ecological_role": "ثماره وزيته صالحان للأكل، نبات طبي"
+    },
+    {
+      "scientific_name": "Boswellia sacra",
+      "arabic_name": "الْكَانْدْل / الْبَخُور",
+      "family": "Burseraceae",
+      "type": "شجرة صغيرة",
+      "habitat": "منطقة جازان والمناطق الجبلية الجنوبية",
+      "key_features": "لحاء ورقي يتقشر، أورص مركبة ريشية، يفرز صمغ البخور العطري عند جرحه",
+      "ecological_role": "مصدر للبخور ذو القيمة الاقتصادية العالية"
+    },
+    {
+      "scientific_name": "Commiphora gileadensis",
+      "arabic_name": "الْمُر",
+      "family": "Burseraceae",
+      "type": "شجرة صغيرة",
+      "habitat": "المناطق الجبلية في الحجاز",
+      "key_features": "أغصان شائكة، أوراق مركبة، يفرز صمغ المر العطري عند جرحه",
+      "ecological_role": "نبات طبي وعبيري قيم"
+    },
+    {
+      "scientific_name": "Aerva javanica",
+      "arabic_name": "الرَتَم",
+      "family": "Amaranthaceae",
+      "type": "شجيرة",
+      "habitat": "الوديان والمناطق الرملية",
+      "key_features": "سيقان وأوراق مغطاة بشعيرات بيضاء تعطي مظهراً فضياً، أزهار بيضاء صغيرة في سنابل كثيفة",
+      "ecological_role": "رعوي، يستخدم في السلال والحشو"
+    },
+    {
+      "scientific_name": "Leptadenia pyrotechnica",
+      "arabic_name": "الْمَرْخ",
+      "family": "Apocynaceae",
+      "type": "شجيرة",
+      "habitat": "المناطق الرملية",
+      "key_features": "سيقان خضراء زاهية عديمة الأوراق تقريباً، أزهار صفراء صغيرة، ثمار جرابية طويلة",
+      "ecological_role": "سيقانه تستخدم في الحبال والسلال، رعوي"
+    },
+    {
+      "scientific_name": "Dipterygium glaucum",
+      "arabic_name": "الْكَثْبَة",
+      "family": "Cleomaceae",
+      "type": "شجيرة",
+      "habitat": "المناطق الرملية",
+      "key_features": "أوراق رمادية زرقاء، أزهار بيضاء صغيرة، ثمار مجنحة",
+      "ecological_role": "تثبيت الرمال، رعوي"
+    },
+    {
+      "scientific_name": "Calligonum comosum",
+      "arabic_name": "الْعَرْجُون",
+      "family": "Polygonaceae",
+      "type": "شجيرة",
+      "habitat": "الكثبان الرملية المتحركة",
+      "key_features": "أغصان خضراء زاهية عديمة الأوراق، أزهار وردية صغيرة، ثمار مجنحة شوكية",
+      "ecological_role": "تثبيت الكثبان الرملية المتحركة بشكل فعال جداً"
+    },
+    {
+      "scientific_name": "Cornulaca monacantha",
+      "arabic_name": "الْحَدْج",
+      "family": "Amaranthaceae",
+      "type": "شجيرة قزمية شوكية",
+      "habitat": "الربع الخالي والمناطق الرملية العميقة",
+      "key_features": "سيقان شوكية صلبة، أوراق مختزلة، أزهار صفراء صغيرة",
+      "ecological_role": "رعوي جيد في الصحراء العميقة"
+    },
+    {
+      "scientific_name": "Cyperus conglomeratus",
+      "arabic_name": "السُّعْد",
+      "family": "Cyperaceae",
+      "type": "عشب معمر",
+      "habitat": "المناطق الرملية والكثبان",
+      "key_features": "سيقان مثلثة مقطع، أوراق قاعدية، نورات بنية مركبة",
+      "ecological_role": "تثبيت الرمال"
+    },
+    {
+      "scientific_name": "Stipagrostis spp.",
+      "arabic_name": "الثُّنِي",
+      "family": "Poaceae",
+      "type": "عشب معمر",
+      "habitat": "المناطق الرملية",
+      "key_features": "نباتات عشبية قائمة، أوراق ملفوفة أو مسطحة، سنابل زهرية رفيعة، لهوائم ريشية طويلة على الحبوب تساعد على التشتت",
+      "ecological_role": "علف مهم في الصحراء، تثبيت التربة"
+    },
+    {
+      "scientific_name": "Aristida spp.",
+      "arabic_name": "الْعِضَاه",
+      "family": "Poaceae",
+      "type": "عشب معمر",
+      "habitat": "المناطق الصحراوية",
+      "key_features": "عشب قاسي، أوراق طويلة ملفوفة، سنابل ضيقة، حبوب ذات حواف حادة قد تجرح أفواه الحيوانات",
+      "ecological_role": "علف في أوقات الشدة فقط"
+    },
+    {
+      "scientific_name": "Echium spp.",
+      "arabic_name": "الْلِسَان الْثَوْر",
+      "family": "Boraginaceae",
+      "type": "عشب حولي أو ثنائي الحول",
+      "habitat": "المناطق المضطربة والمرتفعات",
+      "key_features": "أوراق خشن الملمس، سيقان وأوراق مغطاة بشعيرات خشنة، أزهار زرقاء أو بنفسجية في عناقيد لولبية",
+      "ecological_role": "نبات طبي، جاذب للنحل"
+    },
+    {
+      "scientific_name": "Heliotropium spp.",
+      "arabic_name": "الرَّاعِي",
+      "family": "Boraginaceae",
+      "type": "عشب حولي أو معمر",
+      "habitat": "المناطق المضطربة",
+      "key_features": "أوراق رمادية مغطاة بشعيرات، أزهار بيضاء صغيرة في عناقيد لولبية منحنية كالذيبة",
+      "ecological_role": "بعضها طبي، بعضها سام"
+    },
+    {
+      "scientific_name": "Convolvulus spp.",
+      "arabic_name": "الْمِدْحَاء",
+      "family": "Convolvulaceae",
+      "type": "عشب زاحف أو متسلق",
+      "habitat": "الوديان والمناطق الرملية",
+      "key_features": "سيقان زاحفة، أوراق سهمية أو قلبية، أزهار بوقية بيضاء أو وردية",
+      "ecological_role": "تغطية التربة، رعوي"
+    },
+    {
+      "scientific_name": "Asphodelus tenuifolius",
+      "arabic_name": "الْبَصَل الْبَرِّي",
+      "family": "Asphodelaceae",
+      "type": "عشب حولي",
+      "habitat": "المراعي والمناطق المضطربة",
+      "key_features": "أوراق قاعدية خطية، ساق زهرية طويلة، أزهار بيضاء مع خط بني في المنتصف",
+      "ecological_role": "رعوي"
+    },
+    {
+      "scientific_name": "Malva parviflora",
+      "arabic_name": "الْخُبَّازَة",
+      "family": "Malvaceae",
+      "type": "عشب حولي",
+      "habitat": "المناطق المضطربة والحدائق",
+      "key_features": "أوراق دائرية مسننة، أزهار صغيرة بيضاء أو وردية، ثمار دائرية مسطحة (جبنة)",
+      "ecological_role": "نبات غذائي وطبي"
+    },
+    {
+      "scientific_name": "Corchorus spp.",
+      "arabic_name": "الْمُلُوخِيَة الْبَرِّيَّة",
+      "family": "Malvaceae",
+      "type": "عشب حولي",
+      "habitat": "المناطق الرطبة",
+      "key_features": "أوراق بسيطة مسننة، أزهار صفراء صغيرة، ساق ليفية",
+      "ecological_role": "بعضها يؤكل كخضار"
+    },
+    {
+      "scientific_name": "Aizoon canariense",
+      "arabic_name": "الرِّجْلَة الْبَرِّيَّة",
+      "family": "Aizoaceae",
+      "type": "عشب زاحف حولي",
+      "habitat": "المناطق المضطربة",
+      "key_features": "سيقان وأوراق لحمية حمراء، أزهار صغيرة صفراء",
+      "ecological_role": "تغطية التربة"
+    },
+    {
+      "scientific_name": "Reseda muricata",
+      "arabic_name": "الشِّيْزَن",
+      "family": "Resedaceae",
+      "type": "عشب حولي",
+      "habitat": "المناطق المضطربة",
+      "key_features": "أوراق مفصصة، أزهار بيضاء صغيرة في نورات طويلة",
+      "ecological_role": "نبات رحيقي"
+    },
+    {
+      "scientific_name": "Neurada procumbens",
+      "arabic_name": "الْجَدْوَى",
+      "family": "Neuradaceae",
+      "type": "عشب زاحف حولي",
+      "habitat": "المناطق الرملية",
+      "key_features": "أوراق مفصصة، أزهار صفراء صغيرة، ثمار قرصية شوكية",
+      "ecological_role": "تغطية التربة"
+    },
+    {
+      "scientific_name": "Monsonia nivea",
+      "arabic_name": "الْقِرْفَاء",
+      "family": "Geraniaceae",
+      "type": "عشب حولي",
+      "habitat": "المناطق الرملية",
+      "key_features": "أوراق مفصصة، أزهار بيضاء كبيرة وجميلة، ثمار طويلة منقارية",
+      "ecological_role": "نبات جمالي بري"
+    },
+    {
+      "scientific_name": "Erodium spp.",
+      "arabic_name": "الْغُرَابِيّ",
+      "family": "Geraniaceae",
+      "type": "عشب حولي",
+      "habitat": "المراعي والمناطق المضطربة",
+      "key_features": "أوراق مفصصة، أزهار وردية أو بنفسجية صغيرة، ثمار طويلة منقارية تلتف عند النضج",
+      "ecological_role": "رعوي جيد"
+    },
+    {
+      "scientific_name": "Plantago spp.",
+      "arabic_name": "اللِّسَان الْحَمَل",
+      "family": "Plantaginaceae",
+      "type": "عشب حولي أو معمر",
+      "habitat": "المناطق المضطربة والمراعي",
+      "key_features": "أوراق قاعدية بيضوية أو lanceolate، أزهار صغيرة في سنابل طويلة",
+      "ecological_role": "نبات طبي مهم"
+    },
+    {
+      "scientific_name": "Rumex spp.",
+      "arabic_name": "الْحُمَّاض",
+      "family": "Polygonaceae",
+      "type": "عشب حولي أو معمر",
+      "habitat": "المناطق الرطبة",
+      "key_features": "أوراق lanceolate، أزهار خضراء صغيرة في عناقيد، ثمار مجنحة",
+      "ecological_role": "بعضها يؤكل، بعضها طبي"
+    },
+    {
+      "scientific_name": "Farsetia aegyptia",
+      "arabic_name": "الْكَدْس",
+      "family": "Brassicaceae",
+      "type": "شجيرة صغيرة",
+      "habitat": "المناطق الصخرية والحماد",
+      "key_features": "أوراق رمادية مغطاة بشعيرات، أزهار صفراء صغيرة، ثمار قرنية مستطيلة",
+      "ecological_role": "رعوي"
+    },
+    {
+      "scientific_name": "Morettia parviflora",
+      "arabic_name": "الْجِعْثَن",
+      "family": "Brassicaceae",
+      "type": "عشب حولي",
+      "habitat": "الوديان",
+      "key_features": "أوراق lanceolate، ساق وأوراق مغطاة بشعيرات نجمية، أزهار بيضاء صغيرة",
+      "ecological_role": "رعوي"
+    },
+    {
+      "scientific_name": "Schouwia purpurea",
+      "arabic_name": "الْكُرْفِث",
+      "family": "Brassicaceae",
+      "type": "عشب حولي",
+      "habitat": "المناطق الرملية",
+      "key_features": "أوراق lanceolate لحمية، أزهار بنفسجية صغيرة، ينمو بكثافة بعد الأمطار",
+      "ecological_role": "رعوي ممتاز في المواسم الجيدة"
+    },
+    {
+      "scientific_name": "Astragalus spp.",
+      "arabic_name": "الْقَاتِلَة",
+      "family": "Fabaceae",
+      "type": "عشب حولي أو معمر",
+      "habitat": "المناطق الصحراوية",
+      "key_features": "أوراق مركبة ريشية، أزهار في عناقيد بيضاء أو صفراء أو وردية، قرون منتفخة",
+      "ecological_role": "بعضها سام (يسبب التسمم بالسيانيد)، بعضها رعوي"
+    },
+    {
+      "scientific_name": "Trigonella spp.",
+      "arabic_name": "الْحَلْبَة الْبَرِّيَّة",
+      "family": "Fabaceae",
+      "type": "عشب حولي",
+      "habitat": "المراعي والمناطق المضطربة",
+      "key_features": "أوراق ثلاثية الوريقات، أزهار صفراء صغيرة، قرون مستقيمة أو منحنية",
+      "ecological_role": "رعوي، بعضها طبي"
+    },
+    {
+      "scientific_name": "Medicago spp.",
+      "arabic_name": "النَّفَل",
+      "family": "Fabaceae",
+      "type": "عشب حولي",
+      "habitat": "المراعي",
+      "key_features": "أوراق ثلاثية، أزهار صفراء صغيرة، قرون ملتفة حلزونياً (بعضها شوكي)",
+      "ecological_role": "رعوي ممتاز، تثبيت النيتروجين"
+    },
+    {
+      "scientific_name": "Melilotus spp.",
+      "arabic_name": "الْإِكْلِيل",
+      "family": "Fabaceae",
+      "type": "عشب حولي أو ثنائي الحول",
+      "habitat": "المناطق المضطربة",
+      "key_features": "أوراق ثلاثية، أزهار صفراء أو بيضاء في عناقيد طويلة، رائحة عطرية عند الجفاف (الكومارين)",
+      "ecological_role": "رعوي، نبات عسل"
+    },
+    {
+      "scientific_name": "Lotus spp.",
+      "arabic_name": "الْقَضْب",
+      "family": "Fabaceae",
+      "type": "عشب حولي أو معمر",
+      "habitat": "المراعي والمناطق الرطبة",
+      "key_features": "أوراق خماسية (3 وريقات ظاهرة و2 عند قاعدة العنق)، أزهار صفراء أو وردية، قرون أسطوانية",
+      "ecological_role": "رعوي جيد"
+    },
+    {
+      "scientific_name": "Ononis spp.",
+      "arabic_name": "الْحَوْك",
+      "family": "Fabaceae",
+      "type": "شجيرة صغيرة",
+      "habitat": "المناطق الصخرية",
+      "key_features": "أوراق ثلاثية مسننة، سيقان شائكة، أزهار وردية أو بيضاء",
+      "ecological_role": "رعوي"
+    },
+    {
+      "scientific_name": "Retama raetam",
+      "arabic_name": "الرِّتَم",
+      "family": "Fabaceae",
+      "type": "شجيرة",
+      "habitat": "المناطق الرملية",
+      "key_features": "أغصان خضراء زاهية عديمة الأوراق تقريباً، أزهار بيضاء عطرة، قرون منتفخة",
+      "ecological_role": "تثبيت الرمال، رعوي، نبات طبي"
+    },
+    {
+      "scientific_name": "Ephedra spp.",
+      "arabic_name": "الْعَلَنْدَى",
+      "family": "Ephedraceae",
+      "type": "شجيرة",
+      "habitat": "المناطق الصخرية والجبلية",
+      "key_features": "سيقان خضراء مفصصة عديمة الأوراق، أزهار صغيرة، ثمار حمراء لبية",
+      "ecological_role": "نبات طبي قديم (مصدر للإفيدرين)"
+    },
+    {
+      "scientific_name": "Peganum harmala",
+      "arabic_name": "الْحَرْمَل",
+      "family": "Nitrariaceae",
+      "type": "عشب معمر",
+      "habitat": "المناطق المضطربة والوديان",
+      "key_features": "أوراق مفصصة، أزهار بيضاء، ثمار كبسولية تحتوي على بذور سوداء صغيرة",
+      "ecological_role": "نبات طبي وسحري تقليدي، سام بجرعات عالية"
+    },
+    {
+      "scientific_name": "Nitraria retusa",
+      "arabic_name": "الْغَرْبَق",
+      "family": "Nitrariaceae",
+      "type": "شجيرة",
+      "habitat": "المناطق المالحة والسباخ",
+      "key_features": "أوراق لحمية صغيرة، أزهار صفراء مخضرة، ثمار حمراء صغيرة تؤكل",
+      "ecological_role": "تثبيت التربة المالحة، ثماره غذاء"
+    },
+    {
+      "scientific_name": "Seidlitzia rosmarinus",
+      "arabic_name": "الشِّنَان",
+      "family": "Amaranthaceae",
+      "type": "شجيرة",
+      "habitat": "المناطق المالحة",
+      "key_features": "سيقان وأوراق لحمية خضراء زاهية، أزهار صغيرة، يستخدم رماده في صناعة الصابون (قلي)",
+      "ecological_role": "تثبيت التربة المالحة"
+    },
+    {
+      "scientific_name": "Traganum nudatum",
+      "arabic_name": "الْجِثْجَاث",
+      "family": "Amaranthaceae",
+      "type": "شجيرة",
+      "habitat": "المناطق الرملية المالحة",
+      "key_features": "سيقان خشبية متفرعة، أوراق حرشفية صغيرة، أزهار صفراء",
+      "ecological_role": "رعوي"
+    },
+    {
+      "scientific_name": "Gymnocarpos decandrus",
+      "arabic_name": "الْيَعْضِيد",
+      "family": "Caryophyllaceae",
+      "type": "شجيرة قزمية",
+      "habitat": "المناطق الصخرية",
+      "key_features": "سيقان خشبية متشابكة، أوراق صغيرة، أزهار صغيرة غير واضحة",
+      "ecological_role": "تغطية التربة الصخرية"
+    },
+    {
+      "scientific_name": "Fagonia spp.",
+      "arabic_name": "الْعُشَرَة",
+      "family": "Zygophyllaceae",
+      "type": "شجيرة قزمية",
+      "habitat": "السهول الحصوية",
+      "key_features": "أوراق ثلاثية، سيقان شائكة، أزهار بنفسجية صغيرة",
+      "ecological_role": "نبات طبي"
+    },
+    {
+      "scientific_name": "Zygophyllum spp.",
+      "arabic_name": "الْهَرْم",
+      "family": "Zygophyllaceae",
+      "type": "شجيرة قزمية",
+      "habitat": "المناطق المالحة",
+      "key_features": "أوراق لحمية زوجية، أزهار بيضاء أو صفراء",
+      "ecological_role": "رعوي"
+    },
+    {
+      "scientific_name": "Cistanche tubulosa",
+      "arabic_name": "الْحَاجَز",
+      "family": "Orobanchaceae",
+      "type": "نبات طفيلي",
+      "habitat": "المناطق الرملية (يتطفل على جذور العرعر والرمث)",
+      "key_features": "سيقان لحمية صفراء زاهية، أزهار صفراء كثيفة، بدون أوراق خضراء",
+      "ecological_role": "نبات طبي قيم (يقوي المناعة)"
+    },
+    {
+      "scientific_name": "Orobanche spp.",
+      "arabic_name": "الْهَالُوك",
+      "family": "Orobanchaceae",
+      "type": "نبات طفيلي",
+      "habitat": "يتطفل على محاصيل مثل الفول والطماطم",
+      "key_features": "سيقان لحمية بيضاء أو صفراء أو أرجوانية، أزهار أنبوبية، لا أوراق خضراء",
+      "ecological_role": "آفة زراعية ضارة"
+    },
+    {
+      "scientific_name": "Cuscuta spp. (المحلية)",
+      "arabic_name": "الْحَامُول",
+      "family": "Convolvulaceae",
+      "type": "نبات طفيلي",
+      "habitat": "يتطفل على النباتات البرية المحلية",
+      "key_features": "سيقان خيطية صفراء أو حمراء تلتف حول العائل، أزهار كروية بيضاء أو وردية",
+      "ecological_role": "طفيلي طبيعي في النظام البيئي المتوازن (لا يسبب ضرراً مدمراً كالأجناس الغازية)"
+    },
+    {
+      "scientific_name": "Cleome chrysantha",
+      "arabic_name": "الْمُوسِيَة",
+      "family": "Cleomaceae",
+      "type": "عشب حولي",
+      "habitat": "الوديان بعد الأمطار",
+      "key_features": "أوراق مركبة كفية، أزهار صفراء ذهبية كبيرة وجميلة في عناقيد، ثمار طويلة",
+      "ecological_role": "نبات جمالي بري"
+    },
+    {
+      "scientific_name": "Iphiona scabra",
+      "arabic_name": "الْقَيْصَل",
+      "family": "Asteraceae",
+      "type": "شجيرة صغيرة",
+      "habitat": "المناطق الصخرية",
+      "key_features": "أوراق رمادية مغطاة بشعيرات، أزهار صفراء في رؤوس صغيرة",
+      "ecological_role": "رعوي"
+    },
+    {
+      "scientific_name": "Launaea nudicaulis",
+      "arabic_name": "الْخَسِّ الْبَرِّي",
+      "family": "Asteraceae",
+      "type": "عشب معمر",
+      "habitat": "الوديان والمراعي",
+      "key_features": "أوراق قاعدية مسننة، ساق زهرية طويلة بدون أوراق، أزهار صفراء في رؤوس، عصارة حليبية",
+      "ecological_role": "رعوي"
+    },
+    {
+      "scientific_name": "Reichardia tingitana",
+      "arabic_name": "الْمُرَار",
+      "family": "Asteraceae",
+      "type": "عشب حولي",
+      "habitat": "المناطق المضطربة",
+      "key_features": "أوراق قاعدية مفصصة، أزهار صفراء في رؤوس، كل أجزاء النبات تؤكل عند بعض القبائل",
+      "ecological_role": "نبات غذائي طارئ"
+    },
+    {
+      "scientific_name": "Scorzonera spp.",
+      "arabic_name": "الْكَعْو",
+      "family": "Asteraceae",
+      "type": "عشب معمر",
+      "habitat": "المناطق الرملية",
+      "key_features": "أوراق خطية، أزهار صفراء في رؤوس، جذر وتدي عميق",
+      "ecological_role": "جذوره تؤكل أحياناً"
+    },
+    {
+      "scientific_name": "Anthemis spp.",
+      "arabic_name": "الْبَابُونَج الْبَرِّي",
+      "family": "Asteraceae",
+      "type": "عشب حولي",
+      "habitat": "المراعي والمناطق المضطربة",
+      "key_features": "أوراق مفصصة ريشية، أزهار في رؤوس بيضاء مع مركز أصفر، رائحة عطرية",
+      "ecological_role": "نبات طبي"
+    },
+    {
+      "scientific_name": "Matricaria aurea",
+      "arabic_name": "الْبَابُونَج الذَّهَبِي",
+      "family": "Asteraceae",
+      "type": "عشب حولي",
+      "habitat": "المناطق المضطربة",
+      "key_features": "أوراق مفصصة ريشية ناعمة، أزهار في رؤوس صفراء ذهبية بدون بتلات بيضاء، رائحة قوية",
+      "ecological_role": "نبات طبي"
+    },
+    {
+      "scientific_name": "Centaurium spp.",
+      "arabic_name": "الْقَنْطَارِيُون",
+      "family": "Gentianaceae",
+      "type": "عشب حولي صغير",
+      "habitat": "المناطق الرطبة بعد الأمطار",
+      "key_features": "أوراق قاعدية، ساق زهرية تحمل أزهاراً وردية صغيرة جميلة",
+      "ecological_role": "نبات طبي (مُر)"
+    },
+    {
+      "scientific_name": "Kickxia spp.",
+      "arabic_name": "أَذْن الْفَأْر",
+      "family": "Plantaginaceae",
+      "type": "عشب زاحف حولي",
+      "habitat": "المناطق المضطربة",
+      "key_features": "أوراق قلبية أو سهمية، أزهار صغيرة تشبه وجه الفأر (أرجوانية وصفراء)",
+      "ecological_role": "تغطية التربة"
+    },
+    {
+      "scientific_name": "Verbascum spp.",
+      "arabic_name": "الْأَذَان",
+      "family": "Scrophulariaceae",
+      "type": "عشب ثنائي الحول",
+      "habitat": "المناطق المضطربة والمرتفعات",
+      "key_features": "أوراق كبيرة مغطاة بشعيرات صوفية بيضاء، ساق زهرية طويلة تحمل أزهاراً صفراء",
+      "ecological_role": "نبات طبي"
+    }
+  ]
+}
