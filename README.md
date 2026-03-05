@@ -1,208 +1,80 @@
-# ✅ النسخة المدمجة - تم الإنجاز 🎉
+# 🌿 GreenVision: AI-Powered Environmental Monitoring System
 
-## 🎯 ملخص التحديث
+![GreenVision Banner](https://img.shields.io/badge/Status-MVP_Completed-10B981?style=for-the-badge)
+![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+![AI/GenAI](https://img.shields.io/badge/Generative_AI-Vision-FF6F00?style=for-the-badge&logo=google&logoColor=white)
 
-تم تحويل النظام من **معمارية موزعة** إلى **نظام متكامل واحد** (Cloud Bridge Architecture)
+## 📌 Overview
+**GreenVision** is an enterprise-grade, cloud-native platform designed to automate the detection and monitoring of invasive plant species (specifically *Prosopis juliflora* / Mesquite) in Saudi Arabia. 
 
----
+By integrating autonomous drone imagery with advanced **Computer Vision AI** and **Cloud Infrastructure**, the system empowers environmental specialists to make data-driven decisions, supporting national ecological conservation efforts aligned with Saudi Vision 2030.
 
-## 📋 قائمة الإنجاز
+## 🚀 Key Features
+* **AI-Driven Botanical Analysis:** Utilizes state-of-the-art multimodal AI to analyze high-resolution drone imagery, classifying vegetation as Invasive, Native, or Exotic with real-time confidence scoring.
+* **Geospatial Intelligence:** Automatically extracts EXIF GPS metadata from raw drone images to map plant distribution coordinates accurately.
+* **Cloud Sync & Storage:** Seamlessly uploads field data to scalable cloud blob storage, synchronized with a relational database for immediate dashboard accessibility.
+* **Asynchronous Processing:** Handles bulk image uploads and large ZIP files via background task queues, preventing system timeouts during massive field surveys.
+* **Dual-Portal Architecture:** * **Operator Portal:** A strict, distraction-free interface for field drone operators to upload data.
+  * **Specialist Dashboard:** An analytical dashboard featuring automated Excel report generation, species distribution charts, and mitigation guidelines.
 
-### ✅ التغييرات المنجزة:
+## 🧠 Core Competencies & Tech Stack Showcased
 
-- [x] **حذف `cloud_main.py`** - ملف جديد: `cloud_main_DELETED.txt`
-- [x] **حذف كود Supabase من `drone.html`**
-  - حذف مكتبة Supabase JS
-  - حذف دالة `uploadDroneImage()`
-  - حذف الزر الأحمر "رفع للسحابة"
-- [x] **إضافة جسر السحابة في `main.py`**
-  - Imports: `from supabase import create_client`
-  - الإعدادات: `SUPABASE_URL`, `SUPABASE_KEY`
-  - الكود: رفع تلقائي بعد معالجة الصورة
+### ☁️ Cloud Computing & Architecture
+* **Supabase (PostgreSQL & Storage):** Architected the cloud database schema and configured cloud blob storage for secure, scalable image hosting.
+* **Security (RLS):** Implemented Row Level Security (RLS) policies and utilized Service Role Keys to secure data pipelines between the backend and the cloud.
+* **Cloud Deployment:** Deployed the RESTful API via **Render** and hosted static frontend assets on high-performance CDN networks.
 
-### ✅ التوثيق المكتمل:
+### 🤖 Artificial Intelligence & Prompt Engineering
+* **Vision Models:** Integrated **Gemini 2.0 Flash Vision** (via OpenRouter API) for high-speed, accurate image classification.
+* **Prompt Engineering:** Designed strict, role-based, few-shot prompts to enforce JSON-only outputs, enabling the AI to distinguish complex botanical nuances (e.g., differentiating invasive Mesquite from native Acacia).
+* **Image Optimization:** Engineered an on-the-fly image compression pipeline using `Pillow` to reduce bandwidth and API costs without sacrificing AI classification accuracy.
 
-- [x] `PROJECT_STRUCTURE.md` - هيكل المشروع الكامل
-- [x] `CLOUD_BRIDGE_ARCHITECTURE.md` - شرح المعمارية الجديدة
-- [x] `CHANGES_SUMMARY.md` - ملخص التغييرات
-- [x] `QUICK_START.md` - دليل البدء السريع
-- [x] `check_system.py` - أداة فحص النظام
+### ⚙️ Backend Engineering
+* **FastAPI:** Built a robust, asynchronous RESTful API.
+* **ORM:** Utilized **SQLAlchemy** for database transactions and relationship mapping.
+* **Data Processing:** Developed modules to parse deeply nested JSON responses, handle transient network errors, and extract ExifTags (GPS info) efficiently.
 
----
+### 💻 Frontend Development
+* **Tailwind CSS:** Crafted a responsive, modern UI/UX with zero external CSS files.
+* **Vanilla JavaScript:** Implemented asynchronous `fetch` requests, dynamic DOM manipulation, and smart polling mechanisms for real-time task status updates.
 
-## 🏗️ النظام الجديد (يعمل الآن!)
+## 🏗️ System Architecture Workflow
+1. **Field Operations:** Drone captures imagery -> Operator uploads ZIP/Images via Web App.
+2. **Backend Gateway:** FastAPI receives payload -> Extracts GPS metadata -> Triggers background worker.
+3. **Cloud Bridge:** Images are securely synced to **Supabase Storage** -> Public URLs generated.
+4. **AI Processing:** Optimized image streams are sent to the AI Model -> JSON analysis returned -> Fused with local botanical database.
+5. **Persistence:** Results stored in **Supabase PostgreSQL** -> Frontend polling detects completion -> Reports generated.
 
-```
-المستخدم
-  ↓
-drone.html (زر واحد)
-  ↓
-main.py
-  ├─ 1. حفظ محلي (uploads/)
-  ├─ 2. معالجة AI (Gemini)
-  ├─ 3. قاعدة محلية (SQLite)
-  └─ 4. رفع سحابي (Supabase) ✨ [الجديد]
-  ↓
-النتائج في مكانين:
-  ├─ SQLite (آمن محلياً)
-  └─ Supabase (للعرض والتشارك)
-```
-
----
-
-## 🔐 الأمان والموثوقية
-
-| الميزة | التفاصيل |
-|--------|----------|
-| **المفاتيح السرية** | في `.env` و `main.py` فقط |
-| **الموقع** | ما يعرف عن Supabase |
-| **الرفع المحلي** | آمن دائماً حتى لو فشل السحابة |
-| **الرفع السحابي** | اختياري (لا يوقف الكود) |
-
----
-
-## 📊 الإحصائيات
-
-| العنصر | الرقم |
-|--------|------|
-| ملفات محذوفة | 1 |
-| ملفات معدلة | 2 |
-| ملفات توثيق جديدة | 5 |
-| سطور أكواد مضافة | ~50 |
-| سطور أكواد محذوفة | ~100 |
-| الصافي | **-50 سطر** (أنظف!) |
-
----
-
-## 🚀 الخطوات التالية للتشغيل
+## 📥 Installation & Local Setup
 
 ```bash
-# 1. فحص النظام
-python check_system.py
+# 1. Clone the repository
+git clone [https://github.com/YourUsername/GreenVision.git](https://github.com/YourUsername/GreenVision.git)
+cd GreenVision
 
-# 2. تشغيل الخادم
-cd backend && python -m uvicorn main:app --reload
+# 2. Create a virtual environment
+python -m venv .venv
+source .venv/Scripts/activate  # Windows
 
-# 3. فتح الموقع
-http://localhost:8000/frontend/drone.html
+# 3. Install dependencies
+pip install -r requirements.txt
 
-# 4. تجربة الرفع
-# اختر صورة → اضغط الزر → شوف Terminal
-```
+# 4. Configure Environment Variables
+# Create a .env file and add:
+# SUPABASE_URL=your_url
+# SUPABASE_KEY=your_service_role_key
+# OPENROUTER_API_KEY=your_api_key
 
----
+# 5. Run the FastAPI Server
+python backend/main.py
 
-## ✨ الميزات الرئيسية الآن:
+👩‍💻 Author
+Yara (CEO & Lead Engineer)
 
-✅ **بساطة المستخدم**
-- واجهة نظيفة وسهلة
-- زر واحد فقط
-- عدم الحاجة لاختيارات معقدة
+Computer Science Student | Cloud Computing & AI Enthusiast
 
-✅ **أمان عالي**
-- مفاتيح بعيدة عن الموقع
-- معالجة محلية آمنة
-- رفع سحابي اختياري
+Exploring the intersection of software engineering and environmental sustainability.
 
-✅ **موثوقية الكود**
-- إذا فشل الإنترنت، ما توقف
-- النسخة المحلية محفوظة
-- error handling قوي
-
-✅ **إدارة سهلة**
-- ملف واحد أقل
-- معمارية واضحة
-- توثيق شامل
-
----
-
-## 📚 الملفات المهمة
-
-### للمستخدم:
-- `QUICK_START.md` ← ابدأي من هنا!
-- `drone.html` ← الموقع
-
-### للمطور:
-- `main.py` ← الجسر والخادم
-- `CLOUD_BRIDGE_ARCHITECTURE.md` ← الشرح المفصل
-- `check_system.py` ← فحص النظام
-
-### للتوثيق:
-- `PROJECT_STRUCTURE.md` ← الهيكل الكامل
-- `CHANGES_SUMMARY.md` ← ملخص التغييرات
-- `SUPABASE_TROUBLESHOOTING.md` ← حل المشاكل
-
----
-
-## 🎓 الدروس المستفادة
-
-1. **التكامل أفضل من التقسيم**
-   - بدلاً من عمليات منفصلة، جعلناها في مكان واحد
-
-2. **الأمان أولاً**
-   - المفاتيح السرية في backend فقط
-
-3. **البساطة تقلل الأخطاء**
-   - زر واحد بدلاً من اثنين = أقل confusion
-
-4. **الموثوقية من خلال الاختبار**
-   - `check_system.py` يتأكد كل شيء تمام
-
----
-
-## 🎉 الحالة الحالية
-
-### ✅ مكتمل 100%:
-- ✅ النظام يعمل
-- ✅ الأمان محسّن
-- ✅ التوثيق شامل
-- ✅ الكود نظيف
-- ✅ الأدوات جاهزة (check_system.py)
-
-### ⏳ التطويرات المستقبلية:
-- ⏳ specialist.html (عرض متقدم)
-- ⏳ خرائط تفاعلية
-- ⏳ تصدير تقارير
-- ⏳ dashboard analytics
-
----
-
-## 🌟 النتيجة النهائية
-
-```
-🎯 النظام الآن:
-   ✨ بسيط
-   🔒 آمن
-   ⚡ سريع
-   📊 موثوق
-   🎓 معروض جيداً
-
-جاهز للاستخدام الفوري! 🚀
-```
-
----
-
-## 📞 دعم وتحديثات
-
-للمشاكل:
-- اقرأي `SUPABASE_TROUBLESHOOTING.md`
-- جرّبي `check_system.py`
-- شوفي التعليقات في الكود
-
-للتحديثات:
-- تابعي `CHANGES_SUMMARY.md`
-- اقرأي التوثيق الجديد
-
----
-
-**✅ تم الإنجاز بنجاح!**
-
-الآن أنتِ جاهزة للعمل مع نظام متكامل وآمن وموثوق.
-
-**استمتعي بـ GreenVision UN v1.1.0! 🌱✨**
-
----
-
-**آخر تحديث:** 31 يناير 2026
-**الحالة:** جاهز للإنتاج ✅
-**النسخة:** 1.1.0 Cloud Bridge Integration
+* [LinkedIn](https://www.linkedin.com/in/yara-alalawi999) | [GitHub](https://github.com/Yara-Gimu)
