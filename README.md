@@ -6,6 +6,11 @@
 ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
 ![AI/GenAI](https://img.shields.io/badge/Generative_AI-Vision-FF6F00?style=for-the-badge&logo=google&logoColor=white)
 
+## 🌐 Live Demos
+* 🚁 **Drone Operator Portal:** [https://green-vision.vercel.app/drone.html](https://green-vision.vercel.app/drone.html)
+* 📊 **Specialist Dashboard:** [https://green-vision.vercel.app/specialist.html](https://green-vision.vercel.app/specialist.html)
+*(Note: The backend API is hosted on a free tier and may take ~50 seconds to spin up on the first request).*
+
 ## 📌 Overview
 **GreenVision** is an enterprise-grade, cloud-native platform designed to automate the detection and monitoring of invasive plant species (specifically *Prosopis juliflora* / Mesquite) in Saudi Arabia. 
 
@@ -49,6 +54,7 @@ By integrating autonomous drone imagery with advanced **Computer Vision AI** and
 
 ## 📥 Installation & Local Setup
 
+```bash
 # 1. Clone the repository
 git clone [https://github.com/Yara-Gimu/GreenVision.git](https://github.com/Yara-Gimu/GreenVision.git)
 cd GreenVision
@@ -68,6 +74,7 @@ pip install -r requirements.txt
 
 # 5. Run the FastAPI Server
 python backend/main.py
+```
 
 ## 👩‍💻 Author
 Yara (CEO & Lead Engineer)
