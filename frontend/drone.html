@@ -648,7 +648,7 @@
 
     <script>
         // API Configuration
-        const API_URL = 'http://127.0.0.1:8000/api';
+        const API_URL = 'https://greenvision-pxd3.onrender.com/api';
         
         // DOM Elements
         const fileInput = document.getElementById('file-upload');
@@ -1045,7 +1045,7 @@
                 // Determine specific error message
                 let userFriendlyMessage = error.message;
                 if (error.message === 'Failed to fetch') {
-                    userFriendlyMessage = 'لا يمكن الاتصال بالخادم. تأكد من أن API قيد التشغيل على http://127.0.0.1:8000';
+                    userFriendlyMessage = 'لا يمكن الاتصال بالخادم. تأكد من أن API قيد التشغيل على https://greenvision-pxd3.onrender.com';
                 }
                 
                 // Show error state in modal

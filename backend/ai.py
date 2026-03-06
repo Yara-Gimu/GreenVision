@@ -121,7 +121,7 @@ Rules:
         headers = {
             "Authorization": f"Bearer {openrouter_api_key}",
             "Content-Type": "application/json",
-            "HTTP-Referer": "http://localhost:8000",
+            "HTTP-Referer": "https://greenvision-pxd3.onrender.com",
             "X-Title": "GreenVision"
         }
         
