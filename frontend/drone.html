@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -23,7 +23,77 @@
             padding: 0;
         }
 
-        /* --- 1. SIDEBAR (يمين - ثابت) --- */
+        /* --- TOP HEADER ===== */
+        .top-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 80px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            align-items: center;
+            z-index: 100;
+            padding: 0 1.5rem;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .sidebar-header img {
+            height: 40px;
+            width: auto;
+        }
+
+        /* --- HAMBURGER BTN --- */
+        .hamburger-btn {
+            display: none;
+            position: fixed;
+            top: 1.25rem;
+            right: 1.5rem;
+            z-index: 101;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            width: 44px;
+            height: 44px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .hamburger-btn:hover {
+            background: #f8fafc;
+            border-color: var(--primary);
+        }
+
+        /* FontAwesome icon styling */
+        .hamburger-btn i {
+            transition: all 0.3s ease;
+        }
+
+        /* Show hamburger on mobile */
+        @media (max-width: 768px) {
+            .hamburger-btn {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
         .sidebar {
             width: var(--sidebar-w);
             background: #ffffff;
@@ -36,6 +106,26 @@
             display: flex;
             flex-direction: column;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(100%);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 40;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
         }
 
         /* Sidebar Header - Logo Area */
@@ -101,6 +191,7 @@
             margin-right: var(--sidebar-w);
             padding: 2.5rem;
             min-height: 100vh;
+            transition: margin-right 0.3s ease;
         }
 
         /* Main Header */
@@ -392,26 +483,80 @@
         }
 
         /* RESPONSIVE */
+        /* RESPONSIVE */
         @media (max-width: 1024px) {
             .sidebar { width: 250px; }
             .main-content { margin-right: 250px; }
         }
         
+        /* TABLET & MOBILE (lg: breakpoint) */
         @media (max-width: 768px) {
-            .sidebar { 
-                position: relative;
-                width: 100%;
-                height: auto;
-                max-height: 50vh;
+            /* Show top header on mobile */
+            .top-header {
+                display: flex;
             }
             
-            .main-content { 
+            /* Add space for logo on mobile */
+            .top-header .sidebar-header {
+                margin-right: 3rem;
+            }
+            
+            /* Hide logo from sidebar on mobile */
+            .sidebar .sidebar-header {
+                display: none;
+            }
+            
+            .hamburger-btn {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .sidebar {
+                width: 100%;
+                max-width: 280px;
+                height: calc(100vh - 80px);
+                right: 0;
+                top: 80px;
+                transform: translateX(100%);
+                position: fixed;
+                box-shadow: -5px 0 20px rgba(0, 0, 0, 0.15);
+            }
+            
+            .sidebar.visible {
+                transform: translateX(0);
+            }
+            
+            .sidebar-overlay {
+                display: none;
+            }
+            
+            .sidebar-overlay.active {
+                display: block;
+            }
+            
+            .main-content {
                 margin-right: 0;
                 padding: 1.5rem;
+                margin-top: 80px;
+            }
+            
+            .main-header {
+                margin-bottom: 1.5rem;
+            }
+            
+            .main-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .main-header p {
+                font-size: 0.85rem;
             }
             
             .form-container {
                 padding: 1.5rem;
+                max-width: 100%;
             }
             
             .form-grid {
@@ -419,12 +564,161 @@
                 gap: 1rem;
             }
             
+            .form-group {
+                margin-bottom: 1rem;
+            }
+            
+            .form-label {
+                font-size: 0.9rem;
+            }
+            
+            .form-input {
+                padding: 0.75rem;
+                font-size: 0.95rem;
+            }
+            
             .upload-zone {
                 padding: 2rem 1.5rem;
             }
             
+            .upload-zone i {
+                font-size: 2rem;
+            }
+            
+            .upload-zone h3 {
+                font-size: 1rem;
+            }
+            
+            .upload-zone p {
+                font-size: 0.8rem;
+            }
+            
+            .file-item {
+                padding: 0.6rem;
+            }
+            
+            .btn-primary {
+                width: 100%;
+                font-size: 0.95rem;
+                padding: 0.875rem 1.5rem;
+            }
+        }
+        
+        /* SMALL MOBILE (sm: breakpoint) */
+        @media (max-width: 640px) {
+            .hamburger-btn {
+                width: 40px;
+                height: 40px;
+                top: 0.75rem;
+                right: 0.75rem;
+            }
+            
+            .main-content {
+                padding: 1rem;
+                padding-top: 4rem;
+            }
+            
+            .main-header {
+                margin-bottom: 1rem;
+            }
+            
             .main-header h1 {
+                font-size: 1.25rem;
+                margin-bottom: 0.25rem;
+            }
+            
+            .main-header p {
+                font-size: 0.8rem;
+            }
+            
+            .form-container {
+                padding: 1rem;
+                border-radius: 12px;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+            
+            .form-group {
+                margin-bottom: 0.875rem;
+            }
+            
+            .form-label {
+                font-size: 0.85rem;
+                margin-bottom: 0.375rem;
+            }
+            
+            .form-input {
+                padding: 0.625rem 0.75rem;
+                font-size: 0.9rem;
+            }
+            
+            .upload-zone {
+                padding: 1.5rem 1rem;
+            }
+            
+            .upload-zone i {
                 font-size: 1.75rem;
+                margin-bottom: 0.75rem;
+            }
+            
+            .upload-zone h3 {
+                font-size: 0.95rem;
+                margin-bottom: 0.35rem;
+            }
+            
+            .upload-zone p {
+                font-size: 0.75rem;
+            }
+            
+            .file-list {
+                max-height: 150px;
+                padding: 0.75rem;
+            }
+            
+            .file-item {
+                padding: 0.5rem;
+                margin-bottom: 0.35rem;
+            }
+            
+            .btn-primary {
+                font-size: 0.9rem;
+                padding: 0.75rem 1.25rem;
+                margin-top: 1.5rem;
+            }
+            
+            .modal-content {
+                width: 95%;
+                max-width: 100%;
+                padding: 1.5rem;
+            }
+            
+            .loader {
+                width: 40px;
+                height: 40px;
+                border: 3px solid #e5e7eb;
+            }
+        }
+        
+        /* EXTRA SMALL MOBILE (xs: < 360px) */
+        @media (max-width: 360px) {
+            .main-content {
+                padding: 0.75rem;
+                padding-top: 3.5rem;
+            }
+            
+            .main-header h1 {
+                font-size: 1.1rem;
+            }
+            
+            .form-container {
+                padding: 0.75rem;
+            }
+            
+            .upload-zone {
+                padding: 1.25rem 0.75rem;
             }
         }
 
@@ -462,9 +756,30 @@
     <!-- Toast Notification -->
     <div id="toast" class="toast"></div>
 
+    <!-- Hamburger Menu Button -->
+    <button class="hamburger-btn text-gray-700 text-2xl" id="hamburgerBtn">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar Overlay (Mobile) -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- TOP HEADER -->
+    <header class="top-header">
+        <div class="header-content">
+            <div class="sidebar-header">
+                <img src="assets/logo.png" alt="GreenVision Logo">
+                <div class="text-right">
+                    <h1 class="font-bold text-gray-800 text-lg">GreenVision</h1>
+                    <p class="text-sm text-gray-500">بوابة المشغل</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
     <!-- Sidebar -->
     <aside class="sidebar">
-        <!-- Logo and Title -->
+        <!-- Logo and Title (Desktop only) -->
         <div class="sidebar-header">
             <img src="assets/logo.png" alt="GreenVision Logo">
             <div class="text-right">
@@ -664,6 +979,9 @@
         document.addEventListener('DOMContentLoaded', () => {
             console.log('🎬 Initializing drone page...');
             
+            // Initialize mobile menu
+            initMobileMenu();
+            
             // Add global error handler for uncaught exceptions
             window.addEventListener('error', (event) => {
                 console.error('❌ Global error:', event.error);
@@ -793,6 +1111,44 @@
                 submitBtn.disabled = false;
             } else {
                 submitBtn.disabled = true;
+            }
+        }
+        
+        // ===== MOBILE MENU =====
+        function initMobileMenu() {
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const sidebar = document.querySelector('.sidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            
+            if (hamburgerBtn && sidebar) {
+                hamburgerBtn.addEventListener('click', function() {
+                    hamburgerBtn.classList.toggle('active');
+                    sidebar.classList.toggle('visible');
+                    sidebarOverlay.classList.toggle('active');
+                    
+                    // تغيير الأيقونة من خطوط (همبرجر) إلى علامة (X)
+                    const icon = hamburgerBtn.querySelector('i');
+                    if (hamburgerBtn.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            }
+            
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', function() {
+                    hamburgerBtn.classList.remove('active');
+                    sidebar.classList.remove('visible');
+                    sidebarOverlay.classList.remove('active');
+                    
+                    // إعادة الأيقونة للخطوط
+                    const icon = hamburgerBtn.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                });
             }
         }
         
