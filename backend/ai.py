@@ -125,9 +125,9 @@ Rules:
             "X-Title": "GreenVision"
         }
         
-        # 4. Use a valid model name from available options
+        # 4. Use Gemini 2.5 Pro (Latest 2026 flagship model)
         payload = {
-            "model": os.getenv("AI_MODEL", "google/gemini-2.0-flash-001"),
+            "model": os.getenv("AI_MODEL", "google/gemini-2.5-pro"),
             "messages": [
                 {
                     "role": "user",
