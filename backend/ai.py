@@ -1,59 +1,124 @@
+# ============================================
+# AI IMAGE ANALYSIS MODULE
+# وحدة تحليل الصور بالذكاء الاصطناعي
+# ============================================
+
+# Standard library imports - JSON and file operations
+# مكتبات Python القياسية - عمليات JSON والملفات
 import json
 import os
+
+# PIL (Python Imaging Library) for image processing and metadata
+# PIL (مكتبة معالجة الصور) للتعامل مع الصور واستخراج البيانات الوصفية
 from PIL import Image
 from PIL.ExifTags import TAGS, GPSTAGS
+
+# HTTP requests library for API calls to OpenRouter AI service
+# مكتبة الطلبات HTTP للاتصال بخدمة OpenRouter AI
 import requests
+
+# BytesIO for in-memory binary data handling
+# BytesIO للتعامل مع البيانات الثنائية في الذاكرة
 from io import BytesIO
+
+# DateTime for timestamps
+# DateTime لإنشاء الطوابع الزمنية
 from datetime import datetime
+
+# ZIP file handling for compressed image archives
+# معالجة ملفات ZIP للأرشيفات المضغوطة
 import zipfile
+
+# Temporary file management
+# إدارة الملفات المؤقتة
 import tempfile
 from pathlib import Path
+
+# Base64 encoding for transmitting binary image data in JSON
+# ترميز Base64 لنقل بيانات الصور الثنائية عبر JSON
 import base64
 
-# Load plant database
+# Load plant database from JSON file
+# تحميل قاعدة بيانات النباتات من ملف JSON
+# This database contains information about plants in Saudi Arabia/Middle East
+# قاعدة البيانات تحتوي على معلومات عن النباتات في المملكة العربية السعودية والشرق الأوسط
 data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data.json')
 with open(data_path, 'r', encoding='utf-8') as f:
     PLANT_DATABASE = json.load(f)
 
+# ============================================
+# FUNCTION: Extract GPS Coordinates from Image EXIF Data
+# دالة: استخراج إحداثيات GPS من بيانات EXIF في الصورة
+# ============================================
 def extract_gps_from_image(image_path):
-    """Extract GPS coordinates from image EXIF data"""
+    """
+    Extract GPS latitude and longitude from image EXIF metadata.
+    This helps track where the image was taken (drone location).
+    
+    استخراج خطوط العرض والطول من بيانات EXIF للصورة.
+    هذا يساعد في تتبع موقع التقاط الصورة (موقع الدرون).
+    
+    Args:
+        image_path: Path to the image file
+                   مسار ملف الصورة
+    Returns:
+        Tuple of (latitude, longitude) or (None, None) if not found
+        مجموعة من (latitude, longitude) أو (None, None) إذا لم توجد
+    """
     try:
+        # Open image and extract EXIF metadata if it exists
+        # فتح الصورة واستخراج بيانات EXIF إن وجدت
         image = Image.open(image_path)
         exif_data = image._getexif()
         
+        # If no EXIF data (no GPS info), return None
+        # إذا لم توجد بيانات EXIF (لا توجد معلومات GPS)، أرجع None
         if not exif_data:
             return None, None
         
+        # Extract GPS information from EXIF tags
+        # استخراج معلومات GPS من علامات EXIF
         gps_info = {}
         for tag, value in exif_data.items():
             tag_name = TAGS.get(tag, tag)
             if tag_name == "GPSInfo":
+                # Parse GPS tags to get latitude, longitude, and directions
+                # معالجة علامات GPS للحصول على خطوط العرض والطول والاتجاهات
                 for gps_tag in value:
                     sub_tag = GPSTAGS.get(gps_tag, gps_tag)
                     gps_info[sub_tag] = value[gps_tag]
         
+        # Check if we have latitude and longitude data
+        # التحقق من وجود بيانات خطوط العرض والطول
         if 'GPSLatitude' in gps_info and 'GPSLongitude' in gps_info:
-            # Convert GPS coordinates to decimal degrees
+            # Convert GPS coordinates from degrees, minutes, seconds to decimal format
+            # تحويل إحداثيات GPS من صيغة درجات ودقائق وثوان إلى صيغة عشرية
             lat = gps_info['GPSLatitude']
             lon = gps_info['GPSLongitude']
             
+            # Get direction references (N/S for latitude, E/W for longitude)
+            # الحصول على مراجع الاتجاه (N/S لخطوط العرض، E/W لخطوط الطول)
             lat_ref = gps_info.get('GPSLatitudeRef', 'N')
             lon_ref = gps_info.get('GPSLongitudeRef', 'E')
             
-            # Convert from degrees, minutes, seconds to decimal
-            # استخدام float() لتحويل Fraction objects إلى float (حل مشكلة JSON serialization)
+            # Convert from degrees, minutes, seconds to decimal degrees
+            # Fraction objects are converted to float to avoid JSON serialization errors
+            # تحويل من درجات ودقائق وثوان إلى درجات عشرية
+            # تحويل Fraction objects إلى float لتجنب أخطاء JSON serialization
             lat_decimal = float(lat[0] + lat[1]/60 + lat[2]/3600)
-            if lat_ref == 'S':
+            if lat_ref == 'S':  # South = negative
                 lat_decimal = -lat_decimal
                 
             lon_decimal = float(lon[0] + lon[1]/60 + lon[2]/3600)
-            if lon_ref == 'W':
+            if lon_ref == 'W':  # West = negative
                 lon_decimal = -lon_decimal
             
             return lat_decimal, lon_decimal
         
         return None, None
     except Exception as e:
+        # Log GPS extraction errors but don't stop processing
+        # تسجيل أخطاء استخراج GPS لكن لا نوقف المعالجة
         print(f"Error extracting GPS: {e}")
         return None, None
 
@@ -127,7 +192,7 @@ Rules:
         
         # 4. Use Gemini 2.5 Pro (Latest 2026 flagship model)
         payload = {
-            "model": os.getenv("AI_MODEL", "google/gemini-2.5-pro"),
+            "model": os.getenv("AI_MODEL", "google/gemini-2.5-flash-lite"),
             "messages": [
                 {
                     "role": "user",
