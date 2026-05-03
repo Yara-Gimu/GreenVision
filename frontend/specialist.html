@@ -498,12 +498,19 @@
             border: none;
             cursor: pointer;
             transition: all 0.2s ease;
-            width: 120px;
-            text-align: center;
-            appearance: none;
+            width: 130px;
+            text-align: right;
+            appearance: auto;
             outline: none;
         }
 
+        .status-select:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .status-select[value="analyzing"] { background: #DBEAFE !important; color: #1E3A8A !important; }
+        
         .status-select[value="processing"],
         .status-select:has(option[value="processing"]:checked) {
             background: #FEF3C7 !important;
@@ -964,7 +971,7 @@
             }
             
             .status-select {
-                width: 100px;
+                width: 110px; /* تم تعديل العرض للموبايل */
                 font-size: 0.7rem;
                 padding: 0.3rem 0.5rem;
             }
@@ -1248,6 +1255,14 @@
     </div>
 
     <script>
+        // =========== [الحارس الأمني - Security Guard] ===========
+        // التحقق من وجود جلسة نشطة وأن المستخدم يملك صلاحية "مختص بيئي"
+        if (!sessionStorage.getItem('gv_token') || sessionStorage.getItem('gv_role') !== 'specialist') {
+            alert('🚫 غير مصرح لك بالدخول! الرجاء تسجيل الدخول أولاً.');
+            window.location.replace('login.html?redirect=specialist.html');
+        }
+        // ========================================================
+        
         // ===== GLOBAL VARIABLES =====
         const API_BASE = 'https://greenvision-pxd3.onrender.com/api';
         let currentTab = 'dashboard';
@@ -1258,12 +1273,46 @@
         let miniChart = null;
 
         // ===== INITIALIZATION =====
+        let knownMissionIds = new Set();
+        let isInitialLoad = true;
+
         document.addEventListener('DOMContentLoaded', function() {
             initMobileMenu();
             updateDateTime();
             loadDashboardData();
+            
             setInterval(updateDateTime, 60000);
+            setInterval(pollForUpdates, 15000); // تحديث صامت كل 15 ثانية لجلب التقارير الجديدة
         });
+
+        // دالة التحديث الصامت في الخلفية (بدون تجميد الصفحة)
+        async function pollForUpdates() {
+            try {
+                const response = await fetch(`${API_BASE}/missions`);
+                const missions = await response.json();
+                
+                if (!isInitialLoad) {
+                    const newMissions = missions.filter(m => !knownMissionIds.has(m.id));
+                    newMissions.forEach(m => {
+                        // إظهار تنبيه منبثق للمختص عند وصول تقرير جديد
+                        showToast(`وصول بيانات جديدة من الدرون: ${m.name}`, 'info');
+                    });
+                }
+                
+                knownMissionIds = new Set(missions.map(m => m.id));
+                isInitialLoad = false;
+                allMissions = missions;
+                
+                // تحديث الجدول بصمت إذا كان المختص في صفحة التقارير
+                if (currentTab === 'reports') {
+                    displayReportsTable(missions);
+                } else if (currentTab === 'dashboard') {
+                    updateKPICards({ total_reports: missions.length }, missions);
+                }
+            } catch (error) {
+                console.error('Silent polling error:', error);
+            }
+        }
 
         // ===== MOBILE MENU =====
         function initMobileMenu() {
@@ -1398,6 +1447,12 @@
                 
                 updateKPICards(statsData, allMissions);
                 createCharts(statsData, allMissions);
+                
+                // تحديث الـ knownMissionIds للمرة الأولى
+                if(isInitialLoad) {
+                    knownMissionIds = new Set(allMissions.map(m => m.id));
+                    isInitialLoad = false;
+                }
                 
             } catch (error) {
                 console.error('Error loading dashboard data:', error);
@@ -1546,39 +1601,50 @@
             let html = '';
             
             missions.forEach(mission => {
+                // ذكاء الواجهة: حساب الحالة الحقيقية بناءً على تقدم الذكاء الاصطناعي
+                let isAnalyzing = (mission.total_images > 0 && mission.processed_images < mission.total_images);
+                let displayValue = isAnalyzing ? 'analyzing' : mission.status;
+                
                 const statusColors = {
-                    'processing': ['#FEF3C7', '#92400E'],
-                    'completed': ['#D1FAE5', '#065F46'],
-                    'failed': ['#FEE2E2', '#991B1B']
+                    'analyzing': ['#DBEAFE', '#1E3A8A'], 
+                    'processing': ['#FEF3C7', '#92400E'],   
+                    'completed': ['#D1FAE5', '#065F46'], 
+                    'failed': ['#FEE2E2', '#991B1B']     
                 };
                 
-                const [bgColor, textColor] = statusColors[mission.status] || statusColors.processing;
+                const [bgColor, textColor] = statusColors[displayValue] || statusColors.processing;
                 
                 html += `
                     <tr>
                         <td class="text-gray-500 font-mono">#${mission.id}</td>
                         <td class="font-semibold">${mission.name}</td>
                         <td>${mission.date}</td>
-                        <td>${formatNumber(mission.total_images || 0)}</td>
+                        <td dir="ltr" class="text-right">${mission.processed_images}/${mission.total_images}</td>
                         <td class="text-red-600 font-bold">${formatNumber(mission.invasive_count || 0)}</td>
                         <td>
                             <select 
                                 class="status-select" 
-                                value="${mission.status}" 
+                                value="${displayValue}" 
                                 onchange="updateMissionStatus(${mission.id}, this.value)"
                                 style="background: ${bgColor} !important; color: ${textColor} !important;"
+                                ${isAnalyzing ? 'disabled' : ''}
                             >
-                                <option value="processing" ${mission.status === 'processing' ? 'selected' : ''}>قيد المعالجة</option>
-                                <option value="completed" ${mission.status === 'completed' ? 'selected' : ''}>مكتملة</option>
-                                <option value="failed" ${mission.status === 'failed' ? 'selected' : ''}>مرفوضة</option>
+                                ${isAnalyzing ? `<option value="analyzing">جاري التحليل ⏳</option>` : ''}
+                                <option value="processing" ${displayValue === 'processing' ? 'selected' : ''}>بانتظار المراجعة</option>
+                                <option value="completed" ${displayValue === 'completed' ? 'selected' : ''}>معتمد</option>
+                                <option value="failed" ${displayValue === 'failed' ? 'selected' : ''}>مرفوض</option>
                             </select>
                         </td>
                         <td>
                             <div class="flex gap-2">
-                                <button onclick="viewMissionDetails(${mission.id})" class="btn btn-primary text-sm">
-                                    <i class="fas fa-eye ml-1"></i>
-                                    عرض
-                                </button>
+                                ${isAnalyzing ? 
+                                    `<button disabled class="btn bg-gray-200 text-gray-500 cursor-not-allowed text-sm" title="الذكاء الاصطناعي يحلل البيانات، يرجى الانتظار">
+                                        <i class="fas fa-hourglass-half ml-1"></i> غير متاح
+                                    </button>` : 
+                                    `<button onclick="viewMissionDetails(${mission.id})" class="btn btn-primary text-sm">
+                                        <i class="fas fa-eye ml-1"></i> عرض
+                                    </button>`
+                                }
                             </div>
                         </td>
                     </tr>
@@ -1670,6 +1736,14 @@
                 ? (plantImages.reduce((sum, img) => sum + (img.confidence || 0), 0) / plantImages.length * 100).toFixed(0)
                 : 0;
             
+            // حساب الحالة كما في الجدول
+            let displayStatus = mission.status;
+            if (mission.total_images > 0 && mission.processed_images < mission.total_images) {
+                displayStatus = 'analyzing';
+            } else if (mission.status === 'processing') {
+                displayStatus = 'pending';
+            }
+            
             let content = `
                 <div class="space-y-6">
                     <!-- Mission Header -->
@@ -1691,9 +1765,9 @@
                                     onchange="updateMissionStatus(${mission.id}, this.value)"
                                     style="width: 100%;"
                                 >
-                                    <option value="processing" ${mission.status === 'processing' ? 'selected' : ''}>قيد المعالجة</option>
-                                    <option value="completed" ${mission.status === 'completed' ? 'selected' : ''}>مكتملة</option>
-                                    <option value="failed" ${mission.status === 'failed' ? 'selected' : ''}>مرفوضة</option>
+                                    <option value="processing" ${mission.status === 'processing' ? 'selected' : ''}>بانتظار المراجعة</option>
+                                    <option value="completed" ${mission.status === 'completed' ? 'selected' : ''}>معتمد</option>
+                                    <option value="failed" ${mission.status === 'failed' ? 'selected' : ''}>مرفوض</option>
                                 </select>
                             </div>
                         </div>
@@ -1829,7 +1903,8 @@
         // ===== AUTH FUNCTION =====
         function logout() {
             if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
-                // In a real app, clear tokens and redirect to login
+                // مسح التوكن والجلسة بالكامل لضمان الأمان
+                sessionStorage.clear(); 
                 window.location.href = 'index.html';
             }
         }
