@@ -33,7 +33,7 @@ By integrating autonomous drone imagery with advanced **Computer Vision AI** and
 * **Cloud Deployment:** Deployed the RESTful API via **Render** and hosted static frontend assets on high-performance CDN networks.
 
 ### 🤖 Artificial Intelligence & Prompt Engineering
-* **Vision Models:** Integrated **Gemini 2.5 Pro Vision** (via OpenRouter API) for high-accuracy image classification with advanced visual analysis.
+* **Vision Models:** Integrated **Gemini 2.5 Flash Lite Vision** (via OpenRouter API) for high-accuracy image classification with advanced visual analysis.
 * **Prompt Engineering:** Designed strict, role-based, few-shot prompts to enforce JSON-only outputs, enabling the AI to distinguish complex botanical nuances (e.g., differentiating invasive Mesquite from native Acacia).
 * **Image Optimization:** Engineered an on-the-fly image compression pipeline using `Pillow` to reduce bandwidth and API costs without sacrificing AI classification accuracy.
 
