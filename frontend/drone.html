@@ -483,7 +483,6 @@
         }
 
         /* RESPONSIVE */
-        /* RESPONSIVE */
         @media (max-width: 1024px) {
             .sidebar { width: 250px; }
             .main-content { margin-right: 250px; }
@@ -491,17 +490,14 @@
         
         /* TABLET & MOBILE (lg: breakpoint) */
         @media (max-width: 768px) {
-            /* Show top header on mobile */
             .top-header {
                 display: flex;
             }
             
-            /* Add space for logo on mobile */
             .top-header .sidebar-header {
                 margin-right: 3rem;
             }
             
-            /* Hide logo from sidebar on mobile */
             .sidebar .sidebar-header {
                 display: none;
             }
@@ -806,21 +802,19 @@
 
         <!-- User Info & Logout -->
         <div class="sidebar-footer">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center text-emerald-600 shadow-sm">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-sm font-semibold text-gray-700">المشغل</p>
-                        <p class="text-xs text-emerald-500">● متصل</p>
-                    </div>
+            <div class="user-info flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center text-emerald-600 shadow-sm">
+                    <i class="fas fa-user"></i>
                 </div>
-                <button onclick="window.location.href='index.html'" class="btn btn-logout">
-                    <i class="fas fa-sign-out-alt"></i>
-                    تسجيل الخروج
-                </button>
+                <div class="text-right">
+                    <p class="text-sm font-semibold text-gray-700">المشغل</p>
+                    <p class="text-xs text-emerald-500">● متصل</p>
+                </div>
             </div>
+            <button onclick="sessionStorage.clear(); window.location.href='index.html'" class="btn btn-logout w-full">
+                <i class="fas fa-sign-out-alt"></i>
+                تسجيل الخروج
+            </button>
         </div>
     </aside>
 
@@ -946,12 +940,11 @@
             </div>
             
             <!-- Success Title -->
-            <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">تم الإرسال بنجاح</h3>
+            <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">تم استلام الملفات بنجاح</h3>
             
             <!-- Operational Description -->
             <p class="text-gray-600 mb-6 text-sm leading-relaxed text-center">
-                تم حفظ بيانات الموقع والصور في النظام بنجاح. يمكنك الآن إغلاق هذه النافذة.
-            </p>
+              يتم الآن معالجة الصور بواسطة الذكاء الاصطناعي في الخلفية، ويمكنك إغلاق هذه النافذة أو البدء بمسح جديد            </p>
             
             <!-- OK Button -->
             <button onclick="closeSuccessModal()" class="btn-primary w-full">
@@ -962,6 +955,14 @@
     </div>
 
     <script>
+        // =========== [الحارس الأمني - Security Guard] ===========
+        // التحقق من وجود جلسة نشطة وأن المستخدم يملك صلاحية "مشغل درون"
+        if (!sessionStorage.getItem('gv_token') || sessionStorage.getItem('gv_role') !== 'drone') {
+            alert('🚫 غير مصرح لك بالدخول! الرجاء تسجيل الدخول أولاً.');
+            window.location.replace('login.html?redirect=drone.html');
+        }
+        // ========================================================
+        
         // API Configuration
         const API_URL = 'https://greenvision-pxd3.onrender.com/api';
         
@@ -974,6 +975,9 @@
         const submitBtn = document.getElementById('submitBtn');
         const toast = document.getElementById('toast');
         let selectedFiles = [];
+        
+        // Prevent refresh during upload
+        let isUploading = false;
         
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
@@ -1037,6 +1041,16 @@
                     document.getElementById('submitBtn').click();
                 });
             }
+            
+            // إضافة مستمع لحدث beforeunload لمنع إغلاق الصفحة أثناء الرفع
+            window.addEventListener('beforeunload', (e) => {
+                if (isUploading) {
+                    // رسالة التنبيه المعيارية التي تظهر في المتصفحات الحديثة
+                    const confirmationMessage = 'جاري رفع الصور، التحديث سيلغي العملية. هل أنت متأكد من رغبتك في المغادرة؟';
+                    e.returnValue = confirmationMessage;
+                    return confirmationMessage;
+                }
+            });
             
             console.log('✓ Drone page initialized successfully');
         });
@@ -1257,9 +1271,6 @@
                                 <i class="fas fa-image ml-1"></i>
                                 ${mission.processed_images}/${mission.total_images} صورة
                             </span>
-                            <span class="text-gray-600">
-                                ${new Date(mission.created_at).toLocaleDateString('ar-SA')}
-                            </span>
                         </div>
                     `;
                     
@@ -1279,7 +1290,7 @@
             }
         }
         
-        // Handle button click for smart polling submission (completely detached from form)
+        // Handle button click for smart submission
         document.getElementById('submitBtn').onclick = async () => {
             console.log('🚀 Upload process started via button click');
             
@@ -1293,6 +1304,9 @@
             }
             
             console.log(`📦 Uploading ${selectedFiles.length} files...`);
+            
+            // تفعيل حالة الرفع لمنع الخروج
+            isUploading = true;
             
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
@@ -1334,13 +1348,6 @@
                 formData.append('mission_date', missionDateValue);
                 formData.append('notes', operatorNotesValue);
                 
-                // DEBUG: Log the notes value
-                console.log('🔍 DEBUG - Operator Notes:');
-                console.log(`  Raw value: "${operatorNotesValue}"`);
-                console.log(`  Type: ${typeof operatorNotesValue}`);
-                console.log(`  Length: ${operatorNotesValue ? operatorNotesValue.length : 'null'}`);
-                console.log(`  Trimmed: "${operatorNotesValue ? operatorNotesValue.trim() : 'empty'}"`);
-                
                 // Check if we have a ZIP file
                 const zipFile = selectedFiles.find(file => file.name.toLowerCase().endsWith('.zip'));
                 
@@ -1365,7 +1372,6 @@
                 console.log('Upload Response Status:', response.status, response.statusText);
                 
                 if (!response.ok) {
-                    // Try to get error details
                     let errorMsg = 'خطأ في الخادم';
                     try {
                         const errorData = await response.json();
@@ -1379,29 +1385,50 @@
                 const result = await response.json();
                 console.log('Upload Response Data:', result);
                 
-                // Verify mission_id exists
                 if (!result.mission_id) {
-                    console.error('❌ ERROR: mission_id not found in response!', result);
                     throw new Error('لم يتم استلام معرّف المهمة من الخادم');
                 }
                 
                 console.log('✓ Upload successful, mission_id:', result.mission_id);
                 
-                // Update modal to show processing
-                const progressText = document.getElementById('progressText');
+                // إنهاء حالة الرفع لأن الملفات وصلت للسيرفر بنجاح
+                isUploading = false;
                 
-                // Keep processing modal open and poll the mission status
-                const missionId = result.mission_id;
-                await pollMissionStatus(missionId, processingModal, preventBackdropClose, preventEscapeClose);
+                // Clean up event listeners
+                processingModal.removeEventListener('click', preventBackdropClose);
+                document.removeEventListener('keydown', preventEscapeClose);
+                
+                // Hide processing modal
+                processingModal.style.display = 'none';
+                
+                // Show success modal immediately (Asynchronous UX)
+                document.getElementById('successModal').style.display = 'flex';
+                
+                // Reset form
+                document.getElementById('uploadForm').reset();
+                selectedFiles = [];
+                updateFileList();
+                const today = new Date().toLocaleDateString('en-CA');
+                missionDate.value = today;
+                validateForm();
+                
+                // Reset submit button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال';
+                
+                // Reload missions to show the new mission
+                loadMissions();
                 
             } catch (error) {
+                // في حالة الخطأ، ننهي حالة الرفع
+                isUploading = false;
+                
                 console.error('❌ Upload error:', error.message);
-                console.error('Error details:', error);
                 
                 // Determine specific error message
                 let userFriendlyMessage = error.message;
                 if (error.message === 'Failed to fetch') {
-                    userFriendlyMessage = 'لا يمكن الاتصال بالخادم. تأكد من أن API قيد التشغيل على https://greenvision-pxd3.onrender.com';
+                    userFriendlyMessage = 'لا يمكن الاتصال بالخادم. تأكد من أن API قيد التشغيل.';
                 }
                 
                 // Show error state in modal
@@ -1462,125 +1489,7 @@
             // Re-enable submit button
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = false;
-            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال المهمة';
-        }
-        
-        // Poll mission status with robust error handling
-        async function pollMissionStatus(missionId, processingModal, preventBackdropClose, preventEscapeClose) {
-            console.log(`🔍 Starting to poll mission ${missionId}`);
-            
-            let pollCount = 0;
-            const maxPolls = 300; // 10 minutes at 2s intervals
-            const pollIntervalTime = 2000; // 2 seconds
-            const minDisplayTime = 3000; // Minimum 3 seconds to show processing modal
-            const startTime = Date.now();
-            
-            return new Promise((resolve, reject) => {
-                const interval = setInterval(async () => {
-                    pollCount++;
-                    
-                    try {
-                        // Failsafe timeout check - max 300 polls (600 seconds = 10 minutes)
-                        if (pollCount > maxPolls) {
-                            clearInterval(interval);
-                            console.error(`❌ Poll timeout: Exceeded ${maxPolls} polls (10 minutes)`);
-                            
-                            // Clean up event listeners
-                            processingModal.removeEventListener('click', preventBackdropClose);
-                            document.removeEventListener('keydown', preventEscapeClose);
-                            
-                            showErrorState('انتهت مهلة الانتظار (10 دقائق) - المعالجة استغرقت وقتاً طويلاً');
-                            return;
-                        }
-                        
-                        console.log(`💫 Poll #${pollCount}: Checking mission ${missionId}...`);
-                        
-                        // Fetch mission status
-                        const statusResponse = await fetch(`${API_URL}/mission/${missionId}`, {
-                            timeout: 5000
-                        });
-                        
-                        if (!statusResponse.ok) {
-                            console.warn(`⚠️ Poll #${pollCount}: HTTP ${statusResponse.status} - will retry`);
-                            return; // Skip this poll and continue
-                        }
-                        
-                        const responseData = await statusResponse.json();
-                        const missionData = responseData.mission;
-                        
-                        if (!missionData) {
-                            console.warn(`⚠️ Poll #${pollCount}: Invalid response structure - missing 'mission' field`);
-                            return; // Skip this poll
-                        }
-                        
-                        const { status, processed_images, total_images } = missionData;
-                        console.log(`💫 Poll #${pollCount}: status=${status}, processed=${processed_images}/${total_images}`);
-                        
-                        // Update progress text with current numbers
-                        const progressText = document.getElementById('progressText');
-                        if (progressText) {
-                            progressText.textContent = `$ ${processed_images}/${total_images} images processed...`;
-                        }
-                        
-                        // ✅ Consider complete when all images have been processed
-                        // Status stays 'processing' for specialist review, so check image count instead
-                        const isDone = (
-                            status === 'completed' || 
-                            (total_images > 0 && processed_images >= total_images)
-                        );
-                        
-                        if (isDone) {
-                            console.log(`✓ Processing complete! Status: ${status}, Images: ${processed_images}/${total_images}`);
-                            clearInterval(interval);
-                            
-                            // Enforce minimum display time (3 seconds) - feel natural, not jarring
-                            const elapsed = Date.now() - startTime;
-                            const delay = Math.max(0, minDisplayTime - elapsed);
-                            
-                            console.log(`⏱️  Waiting ${delay}ms before closing modal (min display time)`);
-                            
-                            setTimeout(() => {
-                                // Clean up event listeners
-                                processingModal.removeEventListener('click', preventBackdropClose);
-                                document.removeEventListener('keydown', preventEscapeClose);
-                                
-                                // Hide processing modal
-                                processingModal.style.display = 'none';
-                                
-                                // Show success modal
-                                document.getElementById('successModal').style.display = 'flex';
-                                
-                                // Reset form
-                                document.getElementById('uploadForm').reset();
-                                selectedFiles = [];
-                                updateFileList();
-                                const today = new Date().toLocaleDateString('en-CA');
-                                missionDate.value = today;
-                                validateForm();
-                                
-                                // Reset submit button
-                                const submitBtn = document.getElementById('submitBtn');
-                                submitBtn.disabled = false;
-                                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال المهمة';
-                                
-                                console.log('✓ Loading updated missions...');
-                                // Reload missions to show the new mission
-                                loadMissions();
-                                
-                                resolve();
-                            }, delay);
-                            
-                            return; // Stop polling immediately, but delay UI update
-                        }
-                        
-                    } catch (pollError) {
-                        console.error(`❌ Poll #${pollCount} exception: ${pollError.message}`);
-                        // Log the full error for debugging
-                        console.error(`   Details:`, pollError);
-                        // Don't stop polling - continue trying (network errors are transient)
-                    }
-                }, pollIntervalTime);
-            });
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال';
         }
         
         // Close processing modal function (ONLY on error)
@@ -1592,7 +1501,7 @@
             // Re-enable submit button and restore it
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = false;
-            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال المهمة';
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال';
         }
         
         // Close success modal
