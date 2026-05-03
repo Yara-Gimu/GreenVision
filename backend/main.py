@@ -69,7 +69,7 @@ if not OPENROUTER_API_KEY or OPENROUTER_API_KEY == "your-api-key-here":
 else:
     print(f"[OK] OpenRouter API key loaded: {OPENROUTER_API_KEY[:20]}...")
 
-AI_MODEL = os.getenv("AI_MODEL", "google/gemini-2.5-pro")
+AI_MODEL = os.getenv("AI_MODEL", "google/gemini-2.5-flash-lite")
 
 # ==========================================
 # دالة مساعدة لرفع الصور للسحابة (The Cloud Bridge)
